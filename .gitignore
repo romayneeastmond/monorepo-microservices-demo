@@ -73,9 +73,6 @@ Temporary Items
 bin
 obj
 Debug
-PublishProfiles
-Properties
-ServiceDependencies
 profile.arm.json
 
 # Private
