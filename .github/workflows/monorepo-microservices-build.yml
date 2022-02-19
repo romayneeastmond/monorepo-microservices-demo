@@ -135,11 +135,10 @@ jobs:
         working-directory: ./Microservices.Catalogue
         run: |
           npx standard-version
-          git push origin main
           
       - name: Standard Version Bump        
         uses: qzb/standard-version-action@v1.0.5
 
       - name: Push Tags
         run: |
-          git push --follow-tags origin main          
+          git push --follow-tags origin HEAD:main    
