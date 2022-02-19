@@ -1,12 +1,56 @@
-﻿public static class Departments
+﻿using Company.Department.Models;
+using Company.Department.Services;
+
+public static class Departments
 {
     public static void AddApiRoutes(this WebApplication app)
     {
-        app.MapGet("/", Get);
+        app.MapGet("/", Hello);
 
-        static Task<IResult> Get()
+        app.MapGet("/departments", Get);
+
+        app.MapGet("/department/{id}", GetById);
+
+        app.MapPost("/departments/insert", Insert);
+
+        app.MapPut("/departments/update", Update);
+
+        app.MapDelete("/departments/delete", Delete);
+
+        static Task<IResult> Hello()
         {
             return Task.FromResult(Results.Ok("Hello World from Company.Department Api Microservice!"));
+        };
+
+        static async Task<IResult> Get(IDepartmentService departmentService)
+        {
+            return await departmentService.Get() is List<Department> departments ? Results.Ok(departments) : Results.Ok(new List<Department>());
+        };
+
+        static async Task<IResult> GetById(IDepartmentService departmentService, string code)
+        {
+            return await departmentService.Get(code) is Department department ? Results.Ok(department) : Results.NotFound();
+        };
+
+        static async Task<IResult> Insert(IDepartmentService departmentService, Department department)
+        {
+            await departmentService.Insert(department);
+
+            return Results.Created($"/departments/{department.Id}", department);
+        };
+
+        static async Task<IResult> Update(IDepartmentService departmentService, string code, Department department)
+        {
+            await departmentService.Update(code, department);
+
+            return Results.StatusCode(204);
+        };
+
+        static async Task<IResult> Delete(IDepartmentService departmentService, string code)
+        {
+            await departmentService.Delete(code);
+
+            return Results.StatusCode(204);
         };
     }
 }

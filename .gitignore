@@ -73,9 +73,6 @@ Temporary Items
 bin
 obj
 Debug
-PublishProfiles
-Properties
-ServiceDependencies
 profile.arm.json
 
 # Private
@@ -84,3 +81,4 @@ profile.arm.json
 .env.test.local
 .env.production.local
 README.md
+docker-compose.override.yml

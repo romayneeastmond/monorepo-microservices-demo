@@ -1,5 +1,10 @@
+using Company.Department.Models;
+using Company.Department.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddScoped<IDepartmentDbContext>(provider => provider.GetService<DepartmentDbContext>()!);
+builder.Services.AddTransient<IDepartmentService, DepartmentService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
