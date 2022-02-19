@@ -144,4 +144,5 @@ jobs:
           git config pull.rebase false
           git pull origin main
           git add .
+          git commit -m "chore: Packages version."
           git push --follow-tags origin HEAD:main    
