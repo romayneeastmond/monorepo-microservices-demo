@@ -1,0 +1,68 @@
+version: '3.4'
+
+services:
+  sqldata:
+    image: mcr.microsoft.com/mssql/server
+    container_name: sql1
+    hostname: sql1
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - "1433:1433"
+
+  company-course-api:
+    container_name: company-course-api
+    build:
+      context: .
+      dockerfile: Company.Course/Company.Course.Api/Dockerfile
+    depends_on:
+      - sqldata
+    ports:
+      - "5001:80"
+      - "5051:433"
+
+  company-department-api:
+    container_name: company-department-api
+    build:
+      context: .
+      dockerfile: Company.Department/Company.Department.Api/Dockerfile
+    depends_on:
+      - sqldata
+    ports:
+      - "5002:80"
+      - "5052:433"
+
+  company-employee-api:
+    container_name: company-employee-api
+    build:
+      context: .
+      dockerfile: Company.Employee/Company.Employee.Api/Dockerfile
+    depends_on:
+      - sqldata
+    ports:
+      - "5003:80"
+      - "5053:433"
+
+  company-notification-api:
+    container_name: company-notification-api
+    build:
+      context: .
+      dockerfile: Company.Notification/Company.Notification.Api/Dockerfile
+    depends_on:
+      - sqldata
+    ports:
+      - "5004:80"
+      - "5054:433"
+
+  microservices-catalogue:
+    container_name: microservices-catalogue
+    build:
+      context: .
+      dockerfile: Microservices.Catalogue/Dockerfile
+    depends_on:
+      - company-course-api
+      - company-department-api
+      - company-employee-api
+      - company-notification-api
+    ports:
+      - "3100:3000"
