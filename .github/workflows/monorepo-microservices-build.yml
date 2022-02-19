@@ -134,14 +134,4 @@ jobs:
         working-directory: ./Microservices.Catalogue
         run: |
           npx standard-version
-          
-      - name: Standard Version Bump        
-        uses: qzb/standard-version-action@v1.0.5
-
-      - name: Push Tags
-        run: |
-          git config pull.rebase false
-          git pull origin main --allow-unrelated-histories
-          git add .
-          git commit -m "chore: Packages version."
-          git push --follow-tags origin HEAD:main    
+          git push --follow-tags origin HEAD:main 
