@@ -1,7 +1,7 @@
 name: Build Microservices and Catalogue
 
 on:
-  pull_request:
+  push:
     branches:
       - main
   workflow_dispatch:
@@ -120,7 +120,6 @@ jobs:
           CI: false
   
   update_packages_version:
-    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     needs: [build_catalogue_react]
 
