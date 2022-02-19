@@ -1,3 +1,5 @@
+[![Build Microservices and Catalogue](https://github.com/romayneeastmond/monorepo-microservices-demo/actions/workflows/monorepo-microservices-build.yml/badge.svg?branch=main)](https://github.com/romayneeastmond/monorepo-microservices-demo/actions/workflows/monorepo-microservices-build.yml)
+
 # Monorepo for Company Microservices
 
 A sandbox environment for experimenting with CI/CD inside a monorepo. Each project uses a Docker container, .NET Core 6.0, and EntityFramework Core 6.0. They are microservices responsible for individual Api endpoints and database storage. Each Api is described using SwaggerUI.
