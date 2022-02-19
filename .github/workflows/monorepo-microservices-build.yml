@@ -142,7 +142,7 @@ jobs:
       - name: Push Tags
         run: |
           git config pull.rebase false
-          git pull origin main
+          git pull origin main --allow-unrelated-histories
           git add .
           git commit -m "chore: Packages version."
           git push --follow-tags origin HEAD:main    
