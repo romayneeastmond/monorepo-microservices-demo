@@ -141,4 +141,7 @@ jobs:
 
       - name: Push Tags
         run: |
+          git config pull.rebase false
+          git pull origin main
+          git add .
           git push --follow-tags origin HEAD:main    
