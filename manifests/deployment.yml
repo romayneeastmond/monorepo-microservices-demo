@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: "devkubernetesre01-ca2c"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: "devkubernetesre01-ca2c"
+  template:
+    metadata:
+      labels:
+        app: "devkubernetesre01-ca2c"
+    spec:
+      containers:
+        - name: "devkubernetesre01-ca2c"
+          image: "devmonorepomicroservices.azurecr.io/devkubernetesre01"
+          ports:
+          - containerPort: 3000
