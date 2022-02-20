@@ -4,14 +4,17 @@
 
 A sandbox environment for experimenting with CI/CD inside a monorepo. Each project uses a Docker container, .NET Core 6.0, and EntityFramework Core 6.0. They are microservices responsible for individual Api endpoints and database storage. Each Api is described using SwaggerUI.
 
+### Microservices Api
+
 - Company.Course
 - Company.Department
 - Company.Employee
 - Company.Notification
 
-A simple React application that links to each available Swagger endpoint within the microservices architecture.
+### Microservices Services
 
 - Microservices.Catalogue
+- Microservices.EventBus
 
 ## Company.Course
 
@@ -31,7 +34,21 @@ Notifies the employees of any new training courses or to send reminders of cours
 
 ## Microservices.Catalogue
 
-A developer tool that lists all the available SwaggerUI endpoints.
+A React application that is a developer tool for listing all the available SwaggerUI endpoints.
+
+## Microservices.EventBus
+
+A RabbitMQ / MassTransit event layer that creates messages that are produced and consumed between the microservices.
+
+### Examples of Event Queues
+
+| Queue                     | Producer             | Consumer             | Description                                         |
+| ------------------------- | -------------------- | -------------------- | --------------------------------------------------- |
+| course-created            | Company.Course       | Company.Notification | Prepare a notification email list of employees      |
+| department-deleted        | Company.Department   | Company.Employee     | Uncategorize employees from a deleted department    |
+| employee-created          | Company.Employee     | Company.Notification | Sends a welcome email to a newly created employee   |
+| employee-course-broadcast | Company.Employee     | Company.Notification | Sends an email with details of a new course         |
+| notification-list         | Company.Notification | Company.Employee     | Asks for the employee email addresses for broadcast |
 
 ## Copyright and Ownership
 

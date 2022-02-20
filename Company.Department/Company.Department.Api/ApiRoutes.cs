@@ -27,9 +27,9 @@ public static class Departments
             return await departmentService.Get() is List<Department> departments ? Results.Ok(departments) : Results.Ok(new List<Department>());
         };
 
-        static async Task<IResult> GetById(IDepartmentService departmentService, string code)
+        static async Task<IResult> GetById(IDepartmentService departmentService, string id)
         {
-            return await departmentService.Get(code) is Department department ? Results.Ok(department) : Results.NotFound();
+            return await departmentService.Get(id) is Department department ? Results.Ok(department) : Results.NotFound();
         };
 
         static async Task<IResult> Insert(IDepartmentService departmentService, Department department)
@@ -39,16 +39,16 @@ public static class Departments
             return Results.Created($"/departments/{department.Id}", department);
         };
 
-        static async Task<IResult> Update(IDepartmentService departmentService, string code, Department department)
+        static async Task<IResult> Update(IDepartmentService departmentService, string id, Department department)
         {
-            await departmentService.Update(code, department);
+            await departmentService.Update(id, department);
 
             return Results.StatusCode(204);
         };
 
-        static async Task<IResult> Delete(IDepartmentService departmentService, string code)
+        static async Task<IResult> Delete(IDepartmentService departmentService, string id)
         {
-            await departmentService.Delete(code);
+            await departmentService.Delete(id);
 
             return Results.StatusCode(204);
         };

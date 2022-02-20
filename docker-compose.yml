@@ -10,6 +10,13 @@ services:
     ports:
       - "1433:1433"
 
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
   company-course-api:
     container_name: company-course-api
     build:
@@ -17,9 +24,10 @@ services:
       dockerfile: Company.Course/Company.Course.Api/Dockerfile
     depends_on:
       - sqldata
+      - rabbitmq
     ports:
-      - "5001:80"
-      - "5051:433"
+      - "8001:80"
+      - "8051:433"
 
   company-department-api:
     container_name: company-department-api
@@ -28,9 +36,10 @@ services:
       dockerfile: Company.Department/Company.Department.Api/Dockerfile
     depends_on:
       - sqldata
+      - rabbitmq
     ports:
-      - "5002:80"
-      - "5052:433"
+      - "8002:80"
+      - "8052:433"
 
   company-employee-api:
     container_name: company-employee-api
@@ -39,9 +48,10 @@ services:
       dockerfile: Company.Employee/Company.Employee.Api/Dockerfile
     depends_on:
       - sqldata
+      - rabbitmq
     ports:
-      - "5003:80"
-      - "5053:433"
+      - "8003:80"
+      - "8053:433"
 
   company-notification-api:
     container_name: company-notification-api
@@ -50,9 +60,10 @@ services:
       dockerfile: Company.Notification/Company.Notification.Api/Dockerfile
     depends_on:
       - sqldata
+      - rabbitmq
     ports:
-      - "5004:80"
-      - "5054:433"
+      - "8004:80"
+      - "8054:433"
 
   microservices-catalogue:
     container_name: microservices-catalogue

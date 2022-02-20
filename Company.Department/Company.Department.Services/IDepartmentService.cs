@@ -8,8 +8,8 @@
 
         Task<Models.Department> Insert(Models.Department department);
 
-        Task Update(string code, Models.Department department);
+        Task Update(string id, Models.Department department);
 
-        Task Delete(string code);
+        Task Delete(string id);
     }
 }

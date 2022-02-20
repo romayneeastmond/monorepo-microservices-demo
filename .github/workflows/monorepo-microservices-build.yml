@@ -130,8 +130,7 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
 
-      - name: React Catalogue Bump   
-        working-directory: ./Microservices.Catalogue
+      - name: Standard Version 
         run: |
           npx standard-version
           git push --follow-tags origin HEAD:main 
