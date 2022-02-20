@@ -1,0 +1,63 @@
+on: [push]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    
+    - uses: actions/checkout@master
+    
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Create ACR
+      id: create-acr
+      run: |
+        az acr create -n devmonorepomicroservices -g devmonorepomicroservicesaf80-rg --location "Canada Central" --sku Basic --admin-enabled
+        echo "::set-output name=acr_username::`az acr credential show -n devmonorepomicroservices --query username | xargs`"
+        echo "::set-output name=acr_password::`az acr credential show -n devmonorepomicroservices --query passwords[0].value | xargs`"
+        echo "::add-mask::`az acr credential show -n devmonorepomicroservices --query passwords[0].value | xargs`"
+
+    - uses: azure/docker-login@v1
+      with:
+        login-server: devmonorepomicroservices.azurecr.io
+        username: ${{ steps.create-acr.outputs.acr_username }}
+        password: ${{ steps.create-acr.outputs.acr_password }}
+
+    - name: Build and push image to ACR
+      id: build-image
+      run: |
+        docker build "$GITHUB_WORKSPACE/Microservices.Catalogue" -f  "Microservices.Catalogue/Dockerfile" -t devmonorepomicroservices.azurecr.io/devkubernetesre01:${{ github.sha }} --label dockerfile-path=Microservices.Catalogue/Dockerfile
+        docker push devmonorepomicroservices.azurecr.io/devkubernetesre01:${{ github.sha }}
+    
+    - uses: azure/k8s-set-context@v1
+      id: login
+      with:
+         kubeconfig: ${{ secrets.aks_devkubernetesre01_kubeConfig }}
+    
+    - name: Create namespace
+      run: |
+        namespacePresent=`kubectl get namespace | grep devkubernetesre01ae2e | wc -l`
+        if [ $namespacePresent -eq 0 ]
+        then
+            echo `kubectl create namespace devkubernetesre01ae2e`
+        fi
+
+    - uses: azure/k8s-create-secret@v1
+      with:
+        namespace: devkubernetesre01ae2e
+        container-registry-url: devmonorepomicroservices.azurecr.io
+        container-registry-username: ${{ steps.create-acr.outputs.acr_username }}
+        container-registry-password: ${{ steps.create-acr.outputs.acr_password }}
+        secret-name: devkubernetedockerauth
+       
+    - uses: azure/k8s-deploy@v1.2
+      with:
+        namespace: devkubernetesre01ae2e
+        manifests: |
+          manifests/deployment.yml
+          manifests/service.yml
+        images: |
+          devmonorepomicroservices.azurecr.io/devkubernetesre01:${{ github.sha }}
+        imagepullsecrets: |
+          devkubernetedockerauth   
