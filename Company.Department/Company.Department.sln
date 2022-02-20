@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Company.Department.Api", "Company.Department.Api\Company.Department.Api.csproj", "{B2512ED9-5684-4443-B507-C8A35CDCEF74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Company.Department.Api", "Company.Department.Api\Company.Department.Api.csproj", "{B2512ED9-5684-4443-B507-C8A35CDCEF74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Company.Department.Models", "Company.Department.Models\Company.Department.Models.csproj", "{443AED31-1329-47CE-B0FE-D17B4F000251}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Company.Department.Models", "Company.Department.Models\Company.Department.Models.csproj", "{443AED31-1329-47CE-B0FE-D17B4F000251}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Company.Department.Services", "Company.Department.Services\Company.Department.Services.csproj", "{DB61D855-A1F0-4899-B421-8E1257B1CDA6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Company.Department.Services", "Company.Department.Services\Company.Department.Services.csproj", "{DB61D855-A1F0-4899-B421-8E1257B1CDA6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microservices.EventBus.Constants", "..\Microservices.EventBus\Microservices.EventBus.Constants\Microservices.EventBus.Constants.csproj", "{26D3FAA4-D3F6-4217-B8C0-A6107A8BD3A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{DB61D855-A1F0-4899-B421-8E1257B1CDA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB61D855-A1F0-4899-B421-8E1257B1CDA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB61D855-A1F0-4899-B421-8E1257B1CDA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26D3FAA4-D3F6-4217-B8C0-A6107A8BD3A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26D3FAA4-D3F6-4217-B8C0-A6107A8BD3A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26D3FAA4-D3F6-4217-B8C0-A6107A8BD3A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26D3FAA4-D3F6-4217-B8C0-A6107A8BD3A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

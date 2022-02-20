@@ -2,7 +2,7 @@
 {
     public class DepartmentService : IDepartmentService
     {
-        public Task Delete(string code)
+        public Task Delete(string id)
         {
             throw new NotImplementedException();
         }
@@ -22,7 +22,7 @@
             throw new NotImplementedException();
         }
 
-        public Task Update(string code, Models.Department department)
+        public Task Update(string id, Models.Department department)
         {
             throw new NotImplementedException();
         }

@@ -8,11 +8,6 @@
 
   <ItemGroup>
     <PackageReference Include="MassTransit" Version="7.3.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Microservices.EventBus\Microservices.EventBus.Constants\Microservices.EventBus.Constants.csproj" />
   </ItemGroup>
 
 </Project>
