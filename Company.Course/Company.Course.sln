@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Company.Course.Api", "Company.Course.Api\Company.Course.Api.csproj", "{9DE0EC8E-FEF1-4DA5-AF5A-A6F289E89CD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Company.Course.Api", "Company.Course.Api\Company.Course.Api.csproj", "{9DE0EC8E-FEF1-4DA5-AF5A-A6F289E89CD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Company.Course.Models", "Company.Course.Models\Company.Course.Models.csproj", "{66B76005-7B84-434B-9812-E8F4040517E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Company.Course.Models", "Company.Course.Models\Company.Course.Models.csproj", "{66B76005-7B84-434B-9812-E8F4040517E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Company.Course.Services", "Company.Course.Services\Company.Course.Services.csproj", "{30AFECD9-7B00-4D99-A2FF-2A6F60BB88E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Company.Course.Services", "Company.Course.Services\Company.Course.Services.csproj", "{30AFECD9-7B00-4D99-A2FF-2A6F60BB88E2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microservices.EventBus.Constants", "..\Microservices.EventBus\Microservices.EventBus.Constants\Microservices.EventBus.Constants.csproj", "{EB3A5454-9749-4D27-B06B-8A88EBECE9B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{30AFECD9-7B00-4D99-A2FF-2A6F60BB88E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30AFECD9-7B00-4D99-A2FF-2A6F60BB88E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30AFECD9-7B00-4D99-A2FF-2A6F60BB88E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB3A5454-9749-4D27-B06B-8A88EBECE9B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB3A5454-9749-4D27-B06B-8A88EBECE9B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB3A5454-9749-4D27-B06B-8A88EBECE9B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB3A5454-9749-4D27-B06B-8A88EBECE9B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

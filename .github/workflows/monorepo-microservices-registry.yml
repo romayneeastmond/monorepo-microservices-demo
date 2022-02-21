@@ -19,15 +19,15 @@ jobs:
 
         - name: Publish Company.Department to Registry
           run: |
-            docker build -f ./Company.Department/Company.Department.Api/Dockerfile -t devcontainerregistryre02.azurecr.io/company-department:${{ github.sha }} .
-            docker push devcontainerregistryre02.azurecr.io/company-department:${{ github.sha }}
+            docker build -f ./Company.Department/Company.Department.Api/Dockerfile -t devcontainerregistryre02.azurecr.io/company-department:ci-1.0.1 .
+            docker push devcontainerregistryre02.azurecr.io/company-department:ci-1.0.1
             
         - name: Publish Company.Employee to Registry
           run: |
-            docker build -f ./Company.Employee/Company.Employee.Api/Dockerfile -t devcontainerregistryre02.azurecr.io/company-employee:${{ github.sha }} .
-            docker push devcontainerregistryre02.azurecr.io/company-employee:${{ github.sha }}
+            docker build -f ./Company.Employee/Company.Employee.Api/Dockerfile -t devcontainerregistryre02.azurecr.io/company-employee:ci-1.0.1 .
+            docker push devcontainerregistryre02.azurecr.io/company-employee:ci-1.0.1
 
         - name: Publish Microservices.Catalogue to Registry
           run: |
-            docker build -f ./Microservices.Catalogue/Dockerfile -t devcontainerregistryre02.azurecr.io/microservices-catalogue:${{ github.sha }} .
-            docker push devcontainerregistryre02.azurecr.io/microservices-catalogue:${{ github.sha }}            
+            docker build -f ./Microservices.Catalogue/Dockerfile -t devcontainerregistryre02.azurecr.io/microservices-catalogue:ci-1.0.1 .
+            docker push devcontainerregistryre02.azurecr.io/microservices-catalogue:ci-1.0.1            
