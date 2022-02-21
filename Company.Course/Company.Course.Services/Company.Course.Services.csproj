@@ -10,4 +10,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Company.Course.Models\Company.Course.Models.csproj" />
+  </ItemGroup>
+
 </Project>

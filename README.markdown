@@ -4,6 +4,25 @@
 
 A sandbox environment for experimenting with CI/CD inside a monorepo. Each project uses a Docker container, .NET Core 6.0, and EntityFramework Core 6.0. They are microservices responsible for individual Api endpoints and database storage. Each Api is described using SwaggerUI.
 
+## Monorepo and Microservices Development Progress
+
+- [x] Create monorepo directory structure
+- [x] Define .NET 6.0 microservices projects
+- [x] Create Docker configuration for containers
+- [x] Use Docker Compose for dev environment
+- [x] Define minimal Api structure
+- [x] Create SwaggerUI Api placeholder definitions
+- [x] Create React microservices catalogue project
+- [x] Install RabbitMQ / MassTransit broker for EventBus
+- [x] Publish Docker containers to Azure Container Registry (ACR)
+- [ ] Optionally deploy containers to Azure Web Apps / Azure Container Instances
+- [ ] Develop databases, migrations, and seed data
+- [ ] Create Apollo GraphQL
+- [ ] Develop Unit Testing strategies
+- [ ] Create Kubernetes orchestration
+
+#
+
 ### Microservices Api
 
 - Company.Course
