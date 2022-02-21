@@ -21,4 +21,4 @@ jobs:
           run: |
             docker build -f ./Microservices.Catalogue/Dockerfile -t devcontainerregistryre02.azurecr.io/microservices-catalogue:v1 .
             docker images
-            
+            docker push devcontainerregistryre02.azurecr.io/microservices-catalogue:v1
