@@ -4,7 +4,7 @@ using Microservices.EventBus.Constants.Events;
 
 namespace Company.Employee.Services
 {
-    public class EmployeeDepartmentDeletedService : IConsumer<DepartmentDeleted>
+    public class EmployeeDepartmentDeletedService : IConsumer<IDepartmentDeleted>
     {
         public static DepartmentDeletedEventConsumer EventBusConsumer
         {
@@ -14,11 +14,11 @@ namespace Company.Employee.Services
             }
         }
 
-        public async Task Consume(ConsumeContext<DepartmentDeleted> context)
+        public async Task Consume(ConsumeContext<IDepartmentDeleted> context)
         {
             await EventBusConsumer.Consume(context);
 
-            Console.WriteLine("Company.Employee Microservice Received {0}", context.Message.DepartmentId);
+            Console.WriteLine("Company.Employee (department-deleted) Microservice Received {0}", context.Message.DepartmentId);
         }
     }
 }

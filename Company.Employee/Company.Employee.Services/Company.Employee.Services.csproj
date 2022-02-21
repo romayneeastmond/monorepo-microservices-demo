@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Microservices.EventBus\Microservices.EventBus.Constants\Microservices.EventBus.Constants.csproj" />
+    <ProjectReference Include="..\Company.Employee.Models\Company.Employee.Models.csproj" />
   </ItemGroup>
 
 </Project>

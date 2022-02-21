@@ -1,6 +1,6 @@
 ﻿namespace Microservices.EventBus.Constants.Events
 {
-    public interface DepartmentDeleted
+    public interface IDepartmentDeleted
     {
         Guid EventId { get; }
 
