@@ -1,8 +1,11 @@
+using Company.Employee.Models;
 using Company.Employee.Services;
 using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddScoped<IEmployeeDbContext>(provider => provider.GetService<EmployeeDbContext>()!);
+builder.Services.AddTransient<IEmployeeService, EmployeeService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -12,12 +15,18 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddMassTransit(config =>
 {
     config.AddConsumer<EmployeeDepartmentDeletedService>();
+    config.AddConsumer<EmployeeNotificationListService>();
 
     config.UsingRabbitMq((context, rabbitMqConfig) =>
     {
         rabbitMqConfig.ReceiveEndpoint("department-deleted", e =>
         {
              e.Consumer(() => new EmployeeDepartmentDeletedService());
+        });
+
+        rabbitMqConfig.ReceiveEndpoint("notification-list", e =>
+        {
+            e.Consumer(() => new EmployeeNotificationListService());
         });
     });
 });
@@ -32,5 +41,6 @@ app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Company.Emp
 app.UseHttpsRedirection();
 
 app.AddApiRoutes();
+app.AddEventBusRoutes();
 
 app.Run();

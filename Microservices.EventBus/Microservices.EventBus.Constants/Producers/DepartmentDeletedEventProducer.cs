@@ -7,7 +7,7 @@ namespace Microservices.EventBus.Constants.Producers
     {
         public static async Task NotifyDepartmentDeleted(IPublishEndpoint publishEndpoint, Guid departmentId)
         {
-            await publishEndpoint.Publish<DepartmentDeleted>(new
+            await publishEndpoint.Publish<IDepartmentDeleted>(new
             {
                 EventId = Guid.NewGuid(),
                 DepartmentId = departmentId

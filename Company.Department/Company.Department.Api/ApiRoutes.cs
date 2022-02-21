@@ -36,7 +36,7 @@ public static class Departments
         {
             await departmentService.Insert(department);
 
-            return Results.Created($"/departments/{department.Id}", department);
+            return Results.Created($"/department/{department.Id}", department);
         };
 
         static async Task<IResult> Update(IDepartmentService departmentService, string id, Department department)

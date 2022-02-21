@@ -5,9 +5,9 @@ public static class Services
 {
     public static void AddEventBusRoutes(this WebApplication app)
     {
-        app.MapPost("/queue/delete/department/{id}", Delete);
+        app.MapPost("/queue/delete/department/{id}", Deleted);
 
-        static async Task<IResult> Delete(IPublishEndpoint publishEndpoint, Guid id)
+        static async Task<IResult> Deleted(IPublishEndpoint publishEndpoint, Guid id)
         {
             await DepartmentDeletedEventProducer.NotifyDepartmentDeleted(publishEndpoint, id);
 

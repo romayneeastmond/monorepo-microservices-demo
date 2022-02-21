@@ -7,8 +7,8 @@ namespace Company.Department.Models
         [Key]
         public Guid Id { get; set; } = new Guid()!;
 
-        public string Code { get; set; } = null!;
+        public string Name { get; set; } = string.Empty;
 
-        public string Name { get; set; } = String.Empty;
+        public string Code { get; set; } = null!;        
     }
 }
