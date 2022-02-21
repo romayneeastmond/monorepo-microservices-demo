@@ -17,8 +17,12 @@ jobs:
               username: ${{ SECRETS.REGISTRY_USERNAME }}
               password: ${{ SECRETS.REGISTRY_PASSWORD }}
 
+        - name: Publish Company.Department to Registry
+          run: |
+            docker build -f ./Company.Department/Dockerfile -t devcontainerregistryre02.azurecr.io/company-department::${{ github.sha }} .
+            docker push devcontainerregistryre02.azurecr.io/company-department::${{ github.sha }}
+            
         - name: Publish Microservices.Catalogue to Registry
           run: |
-            docker build -f ./Microservices.Catalogue/Dockerfile -t devcontainerregistryre02.azurecr.io/microservices-catalogue:v1 .
-            docker images
-            docker push devcontainerregistryre02.azurecr.io/microservices-catalogue:v1
+            docker build -f ./Microservices.Catalogue/Dockerfile -t devcontainerregistryre02.azurecr.io/microservices-catalogue::${{ github.sha }} .
+            docker push devcontainerregistryre02.azurecr.io/microservices-catalogue::${{ github.sha }}            
