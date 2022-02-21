@@ -17,6 +17,11 @@ jobs:
               username: ${{ SECRETS.REGISTRY_USERNAME }}
               password: ${{ SECRETS.REGISTRY_PASSWORD }}
 
+        - name: Publish Company.Course to Registry
+          run: |
+            docker build -f ./Company.Course/Company.Course.Api/Dockerfile -t devcontainerregistryre02.azurecr.io/company-course:ci-1.0.1 .
+            docker push devcontainerregistryre02.azurecr.io/company-course:ci-1.0.1
+            
         - name: Publish Company.Department to Registry
           run: |
             docker build -f ./Company.Department/Company.Department.Api/Dockerfile -t devcontainerregistryre02.azurecr.io/company-department:ci-1.0.1 .
