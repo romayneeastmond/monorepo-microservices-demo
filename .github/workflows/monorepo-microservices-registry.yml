@@ -8,7 +8,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
         - name: Checkout GitHub Action
-          uses: actions/checkout@master
+          uses: actions/checkout@v2
 
         - name: Login via Azure CLI
           uses: Azure/docker-login@v1
@@ -19,5 +19,5 @@ jobs:
 
         - name: Publish Microservices.Catalogue to Registry
           run: |
-            docker build . -t devcontainerregistryre02.azurecr.io/microservices-catalogue:${{ github.sha }} -f ./Microservices.Catalogue/Dockerfile
-            docker push devcontainerregistryre02.azurecr.io/microservices-catalogue:${{ github.sha }}
+            docker build -f ./Microservices.Catalogue/Dockerfile -t devcontainerregistryre02.azurecr.io/microservices-catalogue:v1 .
+            docker push devcontainerregistryre02.azurecr.io/microservices-catalogue:v1
