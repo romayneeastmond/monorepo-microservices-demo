@@ -18,7 +18,6 @@ jobs:
               password: ${{ SECRETS.REGISTRY_PASSWORD }}
 
         - name: Publish Microservices.Catalogue to Registry
-          working-directory: ./Microservices.Catalogue
           run: |
-            docker build . -t devcontainerregistryre02.azurecr.io/applicationcompanymicroservices_microservices-catalogue:${{ github.sha }}
+            docker build . -t devcontainerregistryre02.azurecr.io/applicationcompanymicroservices_microservices-catalogue:${{ github.sha }} -f ./Microservices.Catalogue/Dockerfile
             docker push devcontainerregistryre02.azurecr.io/applicationcompanymicroservices_microservices-catalogue:${{ github.sha }}
