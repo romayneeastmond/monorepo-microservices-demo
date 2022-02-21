@@ -10,4 +10,9 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Microservices.EventBus\Microservices.EventBus.Constants\Microservices.EventBus.Constants.csproj" />
+    <ProjectReference Include="..\Company.Notification.Models\Company.Notification.Models.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -32,6 +32,11 @@ jobs:
             docker build -f ./Company.Employee/Company.Employee.Api/Dockerfile -t devcontainerregistryre02.azurecr.io/company-employee:ci-1.0.1 .
             docker push devcontainerregistryre02.azurecr.io/company-employee:ci-1.0.1
 
+        - name: Publish Company.Notification to Registry
+          run: |
+            docker build -f ./Company.Notification/Company.Notification.Api/Dockerfile -t devcontainerregistryre02.azurecr.io/company-notification:ci-1.0.1 .
+            docker push devcontainerregistryre02.azurecr.io/company-notification:ci-1.0.1
+
         - name: Publish Microservices.Catalogue to Registry
           run: |
             docker build -f ./Microservices.Catalogue/Dockerfile -t devcontainerregistryre02.azurecr.io/microservices-catalogue:ci-1.0.1 .
