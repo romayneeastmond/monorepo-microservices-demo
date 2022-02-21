@@ -1,0 +1,24 @@
+name: Azure Publish Images to Registry
+
+on:
+  workflow_dispatch:
+
+jobs:
+    build_and_push_to_registry:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Checkout GitHub Action
+          uses: actions/checkout@master
+
+        - name: Login via Azure CLI
+          uses: Azure/docker-login@v1
+          with:
+              login-server: devcontainerregistryre02.azurecr.io
+              username: ${{ SECRETS.REGISTRY_USERNAME }}
+              password: ${{ SECRETS.REGISTRY_PASSWORD }}
+
+        - name: Publish Microservices.Catalogue to Registry
+          working-directory: ./Microservices.Catalogue
+          run: |
+            docker build . -t devcontainerregistryre02.azurecr.io/applicationcompanymicroservices_microservices-catalogue:${{ github.sha }}
+            docker push devcontainerregistryre02.azurecr.io/applicationcompanymicroservices_microservices-catalogue:${{ github.sha }}
