@@ -19,5 +19,5 @@ jobs:
 
         - name: Publish Microservices.Catalogue to Registry
           run: |
-            docker build . -t devcontainerregistryre02.azurecr.io/applicationcompanymicroservices_microservices-catalogue:${{ github.sha }} -f ./Microservices.Catalogue/Dockerfile
-            docker push devcontainerregistryre02.azurecr.io/applicationcompanymicroservices_microservices-catalogue:${{ github.sha }}
+            docker build . -t devcontainerregistryre02.azurecr.io/microservices-catalogue:${{ github.sha }} -f ./Microservices.Catalogue/Dockerfile
+            docker push devcontainerregistryre02.azurecr.io/microservices-catalogue:${{ github.sha }}
