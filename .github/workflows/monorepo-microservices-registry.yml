@@ -19,7 +19,7 @@ jobs:
 
         - name: Publish Company.Department to Registry
           run: |
-            docker build -f ./Company.Department/Dockerfile -t devcontainerregistryre02.azurecr.io/company-department:${{ github.sha }} .
+            docker build -f ./Company.Department/Company.Department.Api/Dockerfile -t devcontainerregistryre02.azurecr.io/company-department:${{ github.sha }} .
             docker push devcontainerregistryre02.azurecr.io/company-department:${{ github.sha }}
             
         - name: Publish Microservices.Catalogue to Registry
