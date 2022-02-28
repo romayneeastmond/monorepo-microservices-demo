@@ -82,3 +82,8 @@ profile.arm.json
 .env.production.local
 README.md
 docker-compose.override.yml
+.terraform
+.terraform.*
+terraform.tfstate*
+ssh-public-key
+ssh-public-key.pub
