@@ -63,6 +63,10 @@ resource "azurerm_container_registry" "imported_container_registry" {
   identity {
     type = "SystemAssigned"
   }
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "azurerm_role_assignment" "main_container_registry_pull" {
