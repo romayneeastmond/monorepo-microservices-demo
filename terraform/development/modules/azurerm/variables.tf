@@ -1,6 +1,10 @@
 variable "environment" {
   type    = string
-  default = "Production"
+  default = "Development"
+}
+
+variable "imported_container_registry_scope" {
+  type = string
 }
 
 variable "location" {
@@ -10,7 +14,7 @@ variable "location" {
 
 variable "prefix" {
   type    = string
-  default = "prod"
+  default = "dev"
 }
 
 variable "ssh_public_key" {

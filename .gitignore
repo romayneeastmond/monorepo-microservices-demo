@@ -85,5 +85,6 @@ docker-compose.override.yml
 .terraform
 .terraform.*
 terraform.tfstate*
+secret.tfvars
 ssh-public-key
 ssh-public-key.pub
