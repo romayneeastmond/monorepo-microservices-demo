@@ -62,12 +62,12 @@ terraform apply -var-file="SECRET_FILE_NAME.tfvars"
 terraform destroy -var-file="SECRET_FILE_NAME.tfvars"
 ```
 
-## Additional Commands
+## Azure CLI Commands
 
 To list all subscriptions within a particular Azure accout use
 
 ```
-az account list --output table
+az account list -o table
 ```
 
 Alternatively to scope to a particular subscription instead of a tenant, use
@@ -76,11 +76,19 @@ Alternatively to scope to a particular subscription instead of a tenant, use
 az account set -s SUBSCRIPTION_ID
 ```
 
+To generate a service principal, use
+
+```
+az ad sp create-for-rbac --name "SERVICE_PRINCIPAL_NAME"
+```
+
 To scope to the current Azure Kubernetes Services (AKS) instance to run kubectl commands use
 
 ```
 az aks get-credentials --name AKS_INSTANCE_NAME --resource-group RESOURCE_GROUP_WHERE_AKS_INSTANCE_IS
 ```
+
+## Additional Commands
 
 To generate a ssh key for logging into sessions used by Azure resources use
 

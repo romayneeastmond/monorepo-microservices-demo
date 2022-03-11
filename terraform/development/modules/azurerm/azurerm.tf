@@ -24,7 +24,7 @@ resource "azurerm_kubernetes_cluster" "main_kubernetes_cluster" {
   dns_prefix = "${var.prefix}kubernetesclusterre02"
 
   linux_profile {
-    admin_username = "ubuntu"
+    admin_username = "k8sclusteradmin"
 
     ssh_key {
       key_data = file(var.ssh_public_key)
@@ -37,14 +37,8 @@ resource "azurerm_kubernetes_cluster" "main_kubernetes_cluster" {
     vm_size    = "Standard_D2_v2"
   }
 
-  identity {
-    type = "SystemAssigned"
+  service_principal {
+    client_id     = var.service_principal
+    client_secret = var.service_principal_secret
   }
-}
-
-resource "azurerm_role_assignment" "main_container_registry_pull" {
-  principal_id                     = azurerm_kubernetes_cluster.main_kubernetes_cluster.kubelet_identity[0].object_id
-  role_definition_name             = "AcrPull"
-  scope                            = var.imported_container_registry_scope
-  skip_service_principal_aad_check = true
 }
