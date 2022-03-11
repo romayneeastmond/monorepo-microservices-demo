@@ -15,7 +15,7 @@ builder.Services.AddSwaggerGen(c =>
 var app = builder.Build();
 
 app.UseSwagger();
-app.U
+app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Company.Course.Api v1"));
 
 app.UseHttpsRedirection();
 
