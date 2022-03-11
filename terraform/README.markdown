@@ -10,6 +10,8 @@ az login
 az login --tenant TENANT_ID
 ```
 
+#
+
 ## Terraform Specific Commands
 
 To initialize, update configuration, or update providers then use the following
@@ -62,6 +64,8 @@ terraform apply -var-file="SECRET_FILE_NAME.tfvars"
 terraform destroy -var-file="SECRET_FILE_NAME.tfvars"
 ```
 
+#
+
 ## Azure CLI Commands
 
 To list all subscriptions within a particular Azure accout use
@@ -87,6 +91,8 @@ To scope to the current Azure Kubernetes Services (AKS) instance to run kubectl 
 ```
 az aks get-credentials --name AKS_INSTANCE_NAME --resource-group RESOURCE_GROUP_WHERE_AKS_INSTANCE_IS
 ```
+
+#
 
 ## Additional Commands
 

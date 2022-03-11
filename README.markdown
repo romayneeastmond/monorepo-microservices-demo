@@ -19,7 +19,7 @@ A sandbox environment for experimenting with CI/CD inside a monorepo. Each proje
 - [ ] Develop databases, migrations, and seed data
 - [ ] Create Apollo GraphQL
 - [ ] Develop Unit Testing strategies
-- [ ] Create Azure Kubernetes Services orchestration with Terraform
+- [x] Create Azure Kubernetes Services orchestration with Terraform
 
 #
 

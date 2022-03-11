@@ -30,6 +30,8 @@ To run a docker image as an interactive terminal, use
 docker run -it DOCKER_IMAGE_NAME sh
 ```
 
+#
+
 ## Docker Compose Specific Commands
 
 To [re]build all images to running containers within a docker compose configuration, use
