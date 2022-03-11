@@ -20,6 +20,6 @@ app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Company.Emp
 app.UseHttpsRedirection();
 
 app.AddApiRoutes();
-app.AddEv
+app.AddEventBusRoutes();
 
 app.Run();
