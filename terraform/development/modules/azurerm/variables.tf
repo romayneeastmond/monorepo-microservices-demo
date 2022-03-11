@@ -3,10 +3,6 @@ variable "environment" {
   default = "Development"
 }
 
-variable "imported_container_registry_scope" {
-  type = string
-}
-
 variable "location" {
   type    = string
   default = "canadacentral"
@@ -15,6 +11,14 @@ variable "location" {
 variable "prefix" {
   type    = string
   default = "dev"
+}
+
+variable "service_principal" {
+  type = string
+}
+
+variable "service_principal_secret" {
+  type = string
 }
 
 variable "ssh_public_key" {

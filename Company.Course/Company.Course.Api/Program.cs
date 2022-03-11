@@ -12,6 +12,16 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new() { Title = "Company.Course.Api", Version = "v1" });
 });
 
+builder.Services.AddMassTransit(config =>
+{
+    config.UsingRabbitMq((context, rabbitMqConfig) =>
+    {
+
+    });
+});
+
+builder.Services.AddMassTransitHostedService();
+
 var app = builder.Build();
 
 app.UseSwagger();

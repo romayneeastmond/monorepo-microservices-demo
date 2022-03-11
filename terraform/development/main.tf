@@ -1,4 +1,9 @@
 provider "azurerm" {
+  subscription_id = var.subscription_id
+  client_id       = var.service_principal
+  client_secret   = var.service_principal_secret
+  tenant_id       = var.tenant_id
+
   features {
 
   }
@@ -10,13 +15,10 @@ provider "kubernetes" {
   }
 }
 
-variable "imported_container_registry_scope" {
-  type = string
-}
-
 module "azurerm" {
-  source                            = "./modules/azurerm/"
-  imported_container_registry_scope = var.imported_container_registry_scope
+  source                   = "./modules/azurerm/"
+  service_principal        = var.service_principal
+  service_principal_secret = var.service_principal_secret
 }
 
 module "k8s" {
