@@ -1,0 +1,56 @@
+# docker-compose.override.yml
+
+version: '3.4'
+
+services:
+  sqldata:
+    environment:
+      - SA_PASSWORD=YOUR_SECURED_PASSWORD
+
+  company-course-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=YOUR_CERTIFICATE_PASSWORD      
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro
+    ports:
+      - 5001:80
+      - 5051:443
+
+  company-department-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=YOUR_CERTIFICATE_PASSWORD      
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro
+    ports:
+      - 5002:80
+      - 5052:443
+
+  company-employee-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=YOUR_CERTIFICATE_PASSWORD      
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro
+    ports:
+      - 5003:80
+      - 5053:443
+
+  company-notification-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=YOUR_CERTIFICATE_PASSWORD      
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro
+    ports:
+      - 5004:80
+      - 5054:443                  
