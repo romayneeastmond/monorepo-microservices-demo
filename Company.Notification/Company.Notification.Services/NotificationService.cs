@@ -1,17 +1,40 @@
 ﻿using Company.Notification.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Company.Notification.Services
 {
     public class NotificationService : INotificationService
     {
-        public Task<NotificationLog> GetLog(string id)
+        private readonly NotificationDbContext _db;
+
+        public NotificationService(NotificationDbContext db)
         {
-            throw new NotImplementedException();
+            _db = db;
         }
 
-        public Task<NotificationLog> InsertLog(NotificationLog log)
+        public async Task<NotificationLog> GetLog(Guid id)
         {
-            throw new NotImplementedException();
+            return await _db.NotificationLogs.FindAsync(id);
+        }
+
+        public async Task<NotificationLog> InsertLog(NotificationLog log)
+        {
+            _db.NotificationLogs.Add(log);
+
+            await _db.SaveChangesAsync();
+
+            return log;
+        }
+
+        public async Task Rebuild()
+        {
+            var notificationLogs = await _db.NotificationLogs.ToListAsync();
+
+            _db.NotificationLogs.RemoveRange(notificationLogs);
+
+            await _db.SaveChangesAsync();
+
+            NotificationInitalizer.Initialize(_db);
         }
     }
 }

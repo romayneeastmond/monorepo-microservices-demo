@@ -27,7 +27,7 @@ public static class Courses
             return await courseService.Get() is List<Course> courses ? Results.Ok(courses) : Results.Ok(new List<Course>());
         };
 
-        static async Task<IResult> GetById(ICourseService courseService, string id)
+        static async Task<IResult> GetById(ICourseService courseService, Guid id)
         {
             return await courseService.Get(id) is Course course ? Results.Ok(course) : Results.NotFound();
         };
@@ -39,14 +39,14 @@ public static class Courses
             return Results.Created($"/course/{course.Id}", course);
         };
 
-        static async Task<IResult> Update(ICourseService courseService, string id, Course course)
+        static async Task<IResult> Update(ICourseService courseService, Guid id, Course course)
         {
             await courseService.Update(id, course);
 
             return Results.StatusCode(204);
         };
 
-        static async Task<IResult> Delete(ICourseService courseService, string id)
+        static async Task<IResult> Delete(ICourseService courseService, Guid id)
         {
             await courseService.Delete(id);
 

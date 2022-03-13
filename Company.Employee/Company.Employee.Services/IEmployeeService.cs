@@ -4,14 +4,16 @@
     {
         Task<List<Models.Employee>> Get();
 
-        Task<Models.Employee> Get(string id);
+        Task<Models.Employee> Get(Guid id);
 
         Task<Models.Employee> GetByEmailAddress(string emailAddress);
 
         Task<Models.Employee> Insert(Models.Employee employee);
 
-        Task Update(string id, Models.Employee employee);
+        Task Update(Guid id, Models.Employee employee);
 
-        Task Delete(string id);
+        Task Delete(Guid id);
+
+        Task Rebuild();
     }
 }
