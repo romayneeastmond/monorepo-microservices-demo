@@ -6,7 +6,7 @@ namespace Company.Department.Models
     {
         public DepartmentDbContext(DbContextOptions options) : base(options)
         {
-
+            Database.EnsureCreated();
         }
 
         public DbSet<Department> Departments { get; set; } = null!;

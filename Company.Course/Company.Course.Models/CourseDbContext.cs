@@ -6,7 +6,7 @@ namespace Company.Course.Models
     {
         public CourseDbContext(DbContextOptions options) : base(options)
         {
-
+            Database.EnsureCreated();
         }
 
         public DbSet<Course> Courses { get; set; } = null!;

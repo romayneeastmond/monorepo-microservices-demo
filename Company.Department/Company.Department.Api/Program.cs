@@ -1,8 +1,16 @@
 using Company.Department.Models;
 using Company.Department.Services;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<DepartmentDbContext>(
+    options => options.UseSqlServer(
+        builder.Configuration.GetConnectionString("MicroserviceDbString"),
+        migrations => migrations.MigrationsAssembly("Company.Department.Models")
+    )
+);
 
 builder.Services.AddScoped<IDepartmentDbContext>(provider => provider.GetService<DepartmentDbContext>()!);
 builder.Services.AddTransient<IDepartmentService, DepartmentService>();
@@ -30,6 +38,7 @@ app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Company.Dep
 app.UseHttpsRedirection();
 
 app.AddApiRoutes();
+app.AddAdminRoutes();
 app.AddEventBusRoutes();
 
 app.Run();

@@ -1,8 +1,16 @@
 using Company.Course.Models;
 using Company.Course.Services;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<CourseDbContext>(
+    options => options.UseSqlServer(
+        builder.Configuration.GetConnectionString("MicroserviceDbString"),
+        migrations => migrations.MigrationsAssembly("Company.Course.Models")
+    )
+);
 
 builder.Services.AddScoped<ICourseDbContext>(provider => provider.GetService<CourseDbContext>()!);
 builder.Services.AddTransient<ICourseService, CourseService>();
@@ -30,6 +38,7 @@ app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Company.Cou
 app.UseHttpsRedirection();
 
 app.AddApiRoutes();
+app.AddAdminRoutes();
 app.AddEventBusRoutes();
 
 app.Run();
