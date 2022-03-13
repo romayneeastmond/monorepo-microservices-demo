@@ -6,7 +6,7 @@ namespace Company.Employee.Models
     {
         public EmployeeDbContext(DbContextOptions options) : base(options)
         {
-
+            Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

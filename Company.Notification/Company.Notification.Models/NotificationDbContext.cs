@@ -6,7 +6,7 @@ namespace Company.Notification.Models
     {
         public NotificationDbContext(DbContextOptions options) : base(options)
         {
-
+            Database.EnsureCreated();
         }
 
         public DbSet<NotificationLog> NotificationLogs { get; set; } = null!;

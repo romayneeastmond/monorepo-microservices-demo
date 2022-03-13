@@ -13,6 +13,7 @@ services:
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_Kestrel__Certificates__Default__Password=YOUR_CERTIFICATE_PASSWORD      
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ConnectionStrings__MicroserviceDbString=Server=sql1,1433;Database=CompanyMicroservicesCourses;User Id=sa;Password=YOUR_SECURED_PASSWORD
     volumes:
       - ~/.aspnet/https:/https:ro
     ports:
@@ -25,6 +26,7 @@ services:
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_Kestrel__Certificates__Default__Password=YOUR_CERTIFICATE_PASSWORD      
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ConnectionStrings__MicroserviceDbString=Server=sql1,1433;Database=CompanyMicroservicesDepartments;User Id=sa;Password=YOUR_SECURED_PASSWORD
     volumes:
       - ~/.aspnet/https:/https:ro
     ports:
@@ -37,6 +39,7 @@ services:
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_Kestrel__Certificates__Default__Password=YOUR_CERTIFICATE_PASSWORD      
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ConnectionStrings__MicroserviceDbString=Server=sql1,1433;Database=CompanyMicroservicesEmployees;User Id=sa;Password=YOUR_SECURED_PASSWORD
     volumes:
       - ~/.aspnet/https:/https:ro
     ports:
@@ -49,6 +52,7 @@ services:
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_Kestrel__Certificates__Default__Password=YOUR_CERTIFICATE_PASSWORD      
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ConnectionStrings__MicroserviceDbString=Server=sql1,1433;Database=CompanyMicroservicesNotifications;User Id=sa;Password=YOUR_SECURED_PASSWORD
     volumes:
       - ~/.aspnet/https:/https:ro
     ports:
