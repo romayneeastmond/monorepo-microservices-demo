@@ -17,11 +17,9 @@ public static class Courses
 
         app.MapDelete("/courses/delete", Delete);
 
-        static Task<IResult> Hello(IConfiguration configuration)
+        static Task<IResult> Hello()
         {
-            var connection = configuration.GetSection("ConnectionStrings").GetSection("MicroserviceDbString").Value;
-
-            return Task.FromResult(Results.Ok($"Hello World from Company.Course Api Microservice! {connection}"));
+            return Task.FromResult(Results.Ok("Hello World from Company.Course Api Microservice!"));
         };
 
         static async Task<IResult> Get(ICourseService courseService)
