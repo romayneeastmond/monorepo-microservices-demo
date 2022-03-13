@@ -1,30 +1,74 @@
-﻿namespace Company.Department.Services
+﻿using Company.Department.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace Company.Department.Services
 {
     public class DepartmentService : IDepartmentService
     {
-        public Task Delete(string id)
+        private readonly DepartmentDbContext _db;
+
+        public DepartmentService(DepartmentDbContext db)
         {
-            throw new NotImplementedException();
+            _db = db;
         }
 
-        public Task<List<Models.Department>> Get()
+        public async Task Delete(Guid id)
         {
-            throw new NotImplementedException();
+            var department = await _db.Departments.FindAsync(id);
+
+            if (department == null)
+            {
+                throw new KeyNotFoundException(id.ToString());
+            }
+
+            _db.Departments.Remove(department);
+
+            await _db.SaveChangesAsync();
         }
 
-        public Task<Models.Department> Get(string id)
+        public async Task<List<Models.Department>> Get()
         {
-            throw new NotImplementedException();
+            return await _db.Departments.ToListAsync();
         }
 
-        public Task<Models.Department> Insert(Models.Department department)
+        public async Task<Models.Department> Get(Guid id)
         {
-            throw new NotImplementedException();
+            return await _db.Departments.FindAsync(id);
         }
 
-        public Task Update(string id, Models.Department department)
+        public async Task<Models.Department> Insert(Models.Department department)
         {
-            throw new NotImplementedException();
+            _db.Departments.Add(department);
+
+            await _db.SaveChangesAsync();
+
+            return department;
+        }
+
+        public async Task Update(Guid id, Models.Department department)
+        {
+            var departmentItem = await _db.Departments.FindAsync(id);
+
+            if (departmentItem == null)
+            {
+                throw new KeyNotFoundException(id.ToString());
+            }
+
+            departmentItem.Name = department.Name;
+            departmentItem.Code = department.Code;
+
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task Rebuild()
+        {
+            var departments = await _db.Departments.ToListAsync();
+
+            _db.Departments.RemoveRange(departments);
+
+            await _db.SaveChangesAsync();
+
+            DepartmentInitalizer.Initialize(_db);
         }
     }
 }

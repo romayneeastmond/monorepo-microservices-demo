@@ -11,7 +11,7 @@ public static class Employees
 
         app.MapGet("/employee/{id}", GetById);
 
-        app.MapGet("/employee/{emailAddresss}", GetByEmailAddress);
+        app.MapGet("/employee/get/emailAddress/{emailAddress}", GetByEmailAddress);
 
         app.MapPost("/employees/insert", Insert);
 
@@ -29,14 +29,14 @@ public static class Employees
             return await employeeService.Get() is List<Employee> employees ? Results.Ok(employees) : Results.Ok(new List<Employee>());
         };
 
-        static async Task<IResult> GetById(IEmployeeService employeeService, string id)
+        static async Task<IResult> GetById(IEmployeeService employeeService, Guid id)
         {
             return await employeeService.Get(id) is Employee employee ? Results.Ok(employee) : Results.NotFound();
         };
 
-        static async Task<IResult> GetByEmailAddress(IEmployeeService employeeService, string id)
+        static async Task<IResult> GetByEmailAddress(IEmployeeService employeeService, string emailAddress)
         {
-            return await employeeService.Get(id) is Employee employee ? Results.Ok(employee) : Results.NotFound();
+            return await employeeService.GetByEmailAddress(emailAddress) is Employee employee ? Results.Ok(employee) : Results.NotFound();
         };
 
         static async Task<IResult> Insert(IEmployeeService employeeService, Employee employee)
@@ -46,14 +46,14 @@ public static class Employees
             return Results.Created($"/employee/{employee.Id}", employee);
         };
 
-        static async Task<IResult> Update(IEmployeeService employeeService, string id, Employee employee)
+        static async Task<IResult> Update(IEmployeeService employeeService, Guid id, Employee employee)
         {
             await employeeService.Update(id, employee);
 
             return Results.StatusCode(204);
         };
 
-        static async Task<IResult> Delete(IEmployeeService employeeService, string id)
+        static async Task<IResult> Delete(IEmployeeService employeeService, Guid id)
         {
             await employeeService.Delete(id);
 

@@ -4,12 +4,14 @@
     {
         Task<List<Models.Department>> Get();
 
-        Task<Models.Department> Get(string id);
+        Task<Models.Department> Get(Guid id);
 
         Task<Models.Department> Insert(Models.Department department);
 
-        Task Update(string id, Models.Department department);
+        Task Update(Guid id, Models.Department department);
 
-        Task Delete(string id);
+        Task Delete(Guid id);
+
+        Task Rebuild();
     }
 }

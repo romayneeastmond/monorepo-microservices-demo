@@ -1,35 +1,82 @@
-﻿namespace Company.Employee.Services
+﻿using Company.Employee.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace Company.Employee.Services
 {
     public class EmployeeService : IEmployeeService
     {
-        public Task Delete(string id)
+        private readonly EmployeeDbContext _db;
+
+        public EmployeeService(EmployeeDbContext db)
         {
-            throw new NotImplementedException();
+            _db = db;
         }
 
-        public Task<List<Models.Employee>> Get()
+        public async Task Delete(Guid id)
         {
-            throw new NotImplementedException();
+            var employee = await _db.Employees.FindAsync(id);
+
+            if (employee == null)
+            {
+                throw new KeyNotFoundException(id.ToString());
+            }
+
+            _db.Employees.Remove(employee);
+
+            await _db.SaveChangesAsync();
         }
 
-        public Task<Models.Employee> Get(string id)
+        public async Task<List<Models.Employee>> Get()
         {
-            throw new NotImplementedException();
+            return await _db.Employees.ToListAsync();
         }
 
-        public Task<Models.Employee> GetByEmailAddress(string emailAddress)
+        public async Task<Models.Employee> Get(Guid id)
         {
-            throw new NotImplementedException();
+            return await _db.Employees.FindAsync(id);
         }
 
-        public Task<Models.Employee> Insert(Models.Employee employee)
+        public async Task<Models.Employee> GetByEmailAddress(string emailAddress)
         {
-            throw new NotImplementedException();
+            return await _db.Employees.FirstOrDefaultAsync(x => x.EmailAddress.Trim().ToLower() == emailAddress.Trim().ToLower());
         }
 
-        public Task Update(string id, Models.Employee employee)
+        public async Task<Models.Employee> Insert(Models.Employee employee)
         {
-            throw new NotImplementedException();
+            _db.Employees.Add(employee);
+
+            await _db.SaveChangesAsync();
+
+            return employee;
+        }
+
+        public async Task Update(Guid id, Models.Employee employee)
+        {
+            var employeeItem = await _db.Employees.FindAsync(id);
+
+            if (employeeItem == null)
+            {
+                throw new KeyNotFoundException(id.ToString());
+            }
+
+            employeeItem.DepartmentId = employee.DepartmentId;
+            employeeItem.FirstName = employee.FirstName;
+            employeeItem.LastName = employee.LastName;
+            employeeItem.EmailAddress = employee.EmailAddress;
+            employeeItem.IsActive = employee.IsActive;
+
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task Rebuild()
+        {
+            var employees = await _db.Employees.ToListAsync();
+
+            _db.Employees.RemoveRange(employees);
+
+            await _db.SaveChangesAsync();
+
+            EmployeeInitalizer.Initialize(_db);
         }
     }
 }

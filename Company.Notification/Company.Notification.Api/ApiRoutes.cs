@@ -16,7 +16,7 @@ public static class Notification
             return Task.FromResult(Results.Ok("Hello World from Company.Notification Api Microservice!"));
         };
 
-        static async Task<IResult> GetLogById(INotificationService notificationService, string id)
+        static async Task<IResult> GetLogById(INotificationService notificationService, Guid id)
         {
             return await notificationService.GetLog(id) is NotificationLog log ? Results.Ok(log) : Results.NotFound();
         };
