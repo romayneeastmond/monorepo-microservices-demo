@@ -8,6 +8,11 @@ variable "location" {
   default = "canadacentral"
 }
 
+variable "mssql_server" {
+  type    = string
+  default = "sql-company-microservices"
+}
+
 variable "prefix" {
   type    = string
   default = "dev"

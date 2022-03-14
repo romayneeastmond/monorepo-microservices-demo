@@ -26,3 +26,16 @@ output "kube_config" {
 output "host" {
   value = azurerm_kubernetes_cluster.main_kubernetes_cluster.kube_config.0.host
 }
+
+output "mssql_server" {
+  value = azurerm_mssql_server.main_mssql_server.name
+}
+
+output "mssql_server_admin" {
+  value = azurerm_mssql_server.main_mssql_server.administrator_login
+}
+
+output "mssql_server_password" {
+  value     = azurerm_mssql_server.main_mssql_server.administrator_login_password
+  sensitive = true
+}

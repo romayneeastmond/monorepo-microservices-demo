@@ -33,6 +33,16 @@ resource "kubernetes_pod" "main_pod_company_course" {
       port {
         container_port = 443
       }
+
+      env {
+        name  = "ASPNETCORE_ENVIRONMENT"
+        value = "Development"
+      }
+
+      env {
+        name  = "ConnectionStrings__MicroserviceDbString"
+        value = "Data Source=tcp:${var.mssql_server}.database.windows.net,1433;Initial Catalog=CompanyMicroservicesCourses;User Id=${var.mssql_server_admin}@${var.mssql_server};Password=${var.mssql_server_password}"
+      }
     }
   }
 }
@@ -77,6 +87,16 @@ resource "kubernetes_pod" "main_pod_company_department" {
       port {
         container_port = 443
       }
+
+      env {
+        name  = "ASPNETCORE_ENVIRONMENT"
+        value = "Development"
+      }
+
+      env {
+        name  = "ConnectionStrings__MicroserviceDbString"
+        value = "Data Source=tcp:${var.mssql_server}.database.windows.net,1433;Initial Catalog=CompanyMicroservicesDepartments;User Id=${var.mssql_server_admin}@${var.mssql_server};Password=${var.mssql_server_password}"
+      }
     }
   }
 }
@@ -120,6 +140,16 @@ resource "kubernetes_pod" "main_pod_company_employee" {
       port {
         container_port = 443
       }
+
+      env {
+        name  = "ASPNETCORE_ENVIRONMENT"
+        value = "Development"
+      }
+
+      env {
+        name  = "ConnectionStrings__MicroserviceDbString"
+        value = "Data Source=tcp:${var.mssql_server}.database.windows.net,1433;Initial Catalog=CompanyMicroservicesEmployees;User Id=${var.mssql_server_admin}@${var.mssql_server};Password=${var.mssql_server_password}"
+      }
     }
   }
 }
@@ -162,6 +192,16 @@ resource "kubernetes_pod" "main_pod_company_notification" {
 
       port {
         container_port = 443
+      }
+
+      env {
+        name  = "ASPNETCORE_ENVIRONMENT"
+        value = "Development"
+      }
+
+      env {
+        name  = "ConnectionStrings__MicroserviceDbString"
+        value = "Data Source=tcp:${var.mssql_server}.database.windows.net,1433;Initial Catalog=CompanyMicroservicesNotifications;User Id=${var.mssql_server_admin}@${var.mssql_server};Password=${var.mssql_server_password}"
       }
     }
   }

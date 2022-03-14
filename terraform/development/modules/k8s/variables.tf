@@ -13,3 +13,20 @@ variable "client_key" {
 variable "cluster_ca_certificate" {
   type = string
 }
+
+variable "mssql_server_admin" {
+  type = string
+}
+
+variable "mssql_server" {
+  type = string
+}
+
+variable "mssql_server_password" {
+  type = string
+}
+
+variable "prefix" {
+  type    = string
+  default = "dev"
+}
