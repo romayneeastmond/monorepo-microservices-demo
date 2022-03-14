@@ -24,6 +24,8 @@ import './App.scss'
 
 const App = () => {
     const [mobileOpen, setMobileOpen] = useState(false)
+    const [currentMicroservice, setCurrentMicroservice] = useState('')
+    const [currentMicroserviceName, setCurrentMicroserviceName] = useState('')
 
     const drawerWidth = 280
 
@@ -53,12 +55,33 @@ const App = () => {
         setMobileOpen(!mobileOpen)
     }
 
+    const loadMicroservice = (name) => {
+        setCurrentMicroserviceName(<>{getMicroserviceIcon(name)} {name}</>)
+
+        switch (name) {
+            case 'Company.Course':
+                setCurrentMicroservice(process.env.REACT_APP_COMPANY_COURSE)
+                break
+            case 'Company.Department':
+                setCurrentMicroservice(process.env.REACT_APP_COMPANY_DEPARTMENT)
+                break
+            case 'Company.Employee':
+                setCurrentMicroservice(process.env.REACT_APP_COMPANY_EMPLOYEE)
+                break
+            case 'Company.Notification':
+                setCurrentMicroservice(process.env.REACT_APP_COMPANY_NOTIFICATION)
+                break
+            default:
+                setCurrentMicroservice('')
+        }
+    }
+
     const drawer = (
         <>
             <Toolbar />
             <Divider />
             <List>
-                <ListItem button>
+                <ListItem button onClick={() => loadMicroservice('Home')}>
                     <ListItemIcon>
                         <HomeIcon />
                     </ListItemIcon>
@@ -67,7 +90,7 @@ const App = () => {
                 <Divider />
 
                 {microservices.map((text, index) => (
-                    <ListItem button key={text}>
+                    <ListItem button key={text} onClick={() => loadMicroservice(text)}>
                         <ListItemIcon>
                             {getMicroserviceIcon(text)}
                         </ListItemIcon>
@@ -110,9 +133,28 @@ const App = () => {
             </Box>
             <Box component='main' sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
                 <Toolbar />
-                <Typography component='h1' variant='h6' gutterBottom>
-                    Hello World from Microservices.Catalogue!
-                </Typography>
+
+                {
+                    currentMicroservice.length === 0 &&
+                    <Typography component='h1' variant='h6' gutterBottom>
+                        Hello World from Microservices.Catalogue!
+                    </Typography>
+                }
+
+                {
+                    currentMicroservice.length > 0 &&
+                    <>
+                        <Typography component='h1' variant='h6' gutterBottom>
+                            {currentMicroserviceName}
+                        </Typography>
+                        <Typography component='h6' gutterBottom>
+                            <a href='{currentMicroservice}' target='_blank'>{currentMicroservice}</a>
+                        </Typography>
+                        <iframe className='microservice' title='Microservice Preview' src={currentMicroservice} scrolling='no'>
+
+                        </iframe>
+                    </>
+                }
             </Box>
         </Box>
     )

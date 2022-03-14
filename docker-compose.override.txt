@@ -57,4 +57,11 @@ services:
       - ~/.aspnet/https:/https:ro
     ports:
       - 5004:80
-      - 5054:443                  
+      - 5054:443
+
+  microservices-catalogue:
+    environment:
+      - REACT_APP_COMPANY_COURSE=https://localhost:8051/swagger/index.html
+      - REACT_APP_COMPANY_DEPARTMENT=https://localhost:8052/swagger/index.html
+      - REACT_APP_COMPANY_EMPLOYEE=https://localhost:8053/swagger/index.html
+      - REACT_APP_COMPANY_NOTIFICATION=https://localhost:8054/swagger/index.html     
