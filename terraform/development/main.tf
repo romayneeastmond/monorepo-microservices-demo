@@ -27,4 +27,7 @@ module "k8s" {
   client_certificate     = base64decode(module.azurerm.client_certificate)
   client_key             = base64decode(module.azurerm.client_key)
   cluster_ca_certificate = base64decode(module.azurerm.cluster_ca_certificate)
+  mssql_server           = module.azurerm.mssql_server
+  mssql_server_admin     = module.azurerm.mssql_server_admin
+  mssql_server_password  = module.azurerm.mssql_server_password
 }

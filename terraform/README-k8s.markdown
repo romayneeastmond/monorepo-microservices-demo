@@ -40,4 +40,4 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.5.0/a
 kubectl proxy
 ```
 
-The default service account tokens can be found within the Azure Kubernetes Services cluster's Configuration under the 'Kubernetes resources' section.
+The default service account tokens can be found within the Azure Kubernetes Services cluster's Configuration > Secrets > kubernetes-dashboard-token\* under the 'Kubernetes resources' section.
