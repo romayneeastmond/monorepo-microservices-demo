@@ -33,7 +33,14 @@ namespace Company.Department.Services
 
         public async Task<Models.Department> Get(Guid id)
         {
-            return await _db.Departments.FindAsync(id);
+            var department = await _db.Departments.FindAsync(id);
+
+            if (department == null)
+            {
+                throw new KeyNotFoundException(id.ToString());
+            }
+
+            return department;
         }
 
         public async Task<Models.Department> Insert(Models.Department department)

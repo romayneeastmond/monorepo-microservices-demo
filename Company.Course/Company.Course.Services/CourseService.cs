@@ -33,7 +33,14 @@ namespace Company.Course.Services
 
         public async Task<Models.Course> Get(Guid id)
         {
-            return await _db.Courses.FindAsync(id);
+            var course = await _db.Courses.FindAsync(id);
+
+            if (course == null)
+            {
+                throw new KeyNotFoundException(id.ToString());
+            }
+
+            return course;
         }
 
         public async Task<Models.Course> Insert(Models.Course course)

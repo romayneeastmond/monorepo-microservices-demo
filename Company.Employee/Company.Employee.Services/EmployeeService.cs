@@ -33,12 +33,26 @@ namespace Company.Employee.Services
 
         public async Task<Models.Employee> Get(Guid id)
         {
-            return await _db.Employees.FindAsync(id);
+            var employee = await _db.Employees.FindAsync(id);
+
+            if (employee == null)
+            {
+                throw new KeyNotFoundException(id.ToString());
+            }
+
+            return employee;
         }
 
         public async Task<Models.Employee> GetByEmailAddress(string emailAddress)
         {
-            return await _db.Employees.FirstOrDefaultAsync(x => x.EmailAddress.Trim().ToLower() == emailAddress.Trim().ToLower());
+            var employee = await _db.Employees.FirstOrDefaultAsync(x => x.EmailAddress.Trim().ToLower() == emailAddress.Trim().ToLower());
+
+            if (employee == null)
+            {
+                throw new KeyNotFoundException(emailAddress);
+            }
+
+            return employee;
         }
 
         public async Task<Models.Employee> Insert(Models.Employee employee)
@@ -62,7 +76,7 @@ namespace Company.Employee.Services
             employeeItem.DepartmentId = employee.DepartmentId;
             employeeItem.FirstName = employee.FirstName;
             employeeItem.LastName = employee.LastName;
-            employeeItem.EmailAddress = employee.EmailAddress;
+            employeeItem.EmailAddress = employee.EmailAddress.Trim().ToLower();
             employeeItem.IsActive = employee.IsActive;
 
             await _db.SaveChangesAsync();

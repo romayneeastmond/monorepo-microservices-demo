@@ -14,7 +14,14 @@ namespace Company.Notification.Services
 
         public async Task<NotificationLog> GetLog(Guid id)
         {
-            return await _db.NotificationLogs.FindAsync(id);
+            var log = await _db.NotificationLogs.FindAsync(id);
+
+            if (log == null)
+            {
+                throw new KeyNotFoundException(id.ToString());
+            }
+
+            return log;
         }
 
         public async Task<NotificationLog> InsertLog(NotificationLog log)
