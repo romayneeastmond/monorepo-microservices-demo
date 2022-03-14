@@ -2,3 +2,22 @@ html {
     overflow-x: hidden !important;
     overflow-y: scroll;
 }
+
+a {
+    color: #1976d2;
+}
+
+h1 {
+    svg {
+        margin-right: 10px;
+        position: relative;
+        top: 5px;
+    }
+}
+
+iframe.microservice {
+    border: 0;
+    height: 200vh;
+    min-height: calc(100vh - 200px);
+    width: 100%;
+}
