@@ -13,6 +13,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 
+import DirectionsBusFilledIcon from '@mui/icons-material/DirectionsBusFilled';
 import GroupIcon from '@mui/icons-material/Group'
 import HomeIcon from '@mui/icons-material/Home'
 import MailOutlineIcon from '@mui/icons-material/MailOutline'
@@ -46,6 +47,8 @@ const App = () => {
                 return <PersonIcon />
             case 'Company.Notification':
                 return <MailOutlineIcon />
+            case 'RabbitMQ':
+                return <DirectionsBusFilledIcon />
             default:
                 return <WebAssetIcon />
         }
@@ -71,6 +74,9 @@ const App = () => {
             case 'Company.Notification':
                 setCurrentMicroservice(process.env.REACT_APP_COMPANY_NOTIFICATION)
                 break
+            case 'RabbitMQ':
+                setCurrentMicroservice(process.env.REACT_APP_RABBITMQ)
+                break;
             default:
                 setCurrentMicroservice('')
         }
@@ -97,6 +103,19 @@ const App = () => {
                         <ListItemText primary={text} />
                     </ListItem>
                 ))}
+
+                {
+                    process.env.REACT_APP_RABBITMQ &&
+                    <>
+                        <Divider />
+                        <ListItem button onClick={() => loadMicroservice('RabbitMQ')}>
+                            <ListItemIcon>
+                                <DirectionsBusFilledIcon />
+                            </ListItemIcon>
+                            <ListItemText primary='RabbitMQ' />
+                        </ListItem>
+                    </>
+                }
             </List>
         </>
     )
