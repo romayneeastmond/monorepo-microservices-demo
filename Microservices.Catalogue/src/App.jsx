@@ -167,7 +167,7 @@ const App = () => {
                             {currentMicroserviceName}
                         </Typography>
                         <Typography component='h6' gutterBottom>
-                            <a href='{currentMicroservice}' target='_blank'>{currentMicroservice}</a>
+                            <a href={currentMicroservice} target='_blank' rel='noreferrer'>{currentMicroservice}</a>
                         </Typography>
                         <iframe className='microservice' title='Microservice Preview' src={currentMicroservice} scrolling='no'>
 
