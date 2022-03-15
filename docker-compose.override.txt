@@ -11,9 +11,12 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=YOUR_CERTIFICATE_PASSWORD      
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=YOUR_CERTIFICATE_PASSWORD
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
       - ConnectionStrings__MicroserviceDbString=Server=sql1,1433;Database=CompanyMicroservicesCourses;User Id=sa;Password=YOUR_SECURED_PASSWORD
+      - RabbitMQConfiguration__RabbitMQServer=rabbitmq
+      - RabbitMQConfiguration__RabbitMQUsername=YOUR_RABBITMQ_USERNAME
+      - RabbitMQConfiguration__RabbitMQPassword=YOUR_RABBITMQ_PASSWORD
     volumes:
       - ~/.aspnet/https:/https:ro
     ports:
@@ -24,9 +27,12 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=YOUR_CERTIFICATE_PASSWORD      
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=YOUR_CERTIFICATE_PASSWORD
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
       - ConnectionStrings__MicroserviceDbString=Server=sql1,1433;Database=CompanyMicroservicesDepartments;User Id=sa;Password=YOUR_SECURED_PASSWORD
+      - RabbitMQConfiguration__RabbitMQServer=rabbitmq
+      - RabbitMQConfiguration__RabbitMQUsername=YOUR_RABBITMQ_USERNAME
+      - RabbitMQConfiguration__RabbitMQPassword=YOUR_RABBITMQ_PASSWORD
     volumes:
       - ~/.aspnet/https:/https:ro
     ports:
@@ -37,9 +43,12 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=YOUR_CERTIFICATE_PASSWORD      
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=YOUR_CERTIFICATE_PASSWORD
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
       - ConnectionStrings__MicroserviceDbString=Server=sql1,1433;Database=CompanyMicroservicesEmployees;User Id=sa;Password=YOUR_SECURED_PASSWORD
+      - RabbitMQConfiguration__RabbitMQServer=rabbitmq
+      - RabbitMQConfiguration__RabbitMQUsername=YOUR_RABBITMQ_USERNAME
+      - RabbitMQConfiguration__RabbitMQPassword=YOUR_RABBITMQ_PASSWORD
     volumes:
       - ~/.aspnet/https:/https:ro
     ports:
@@ -50,9 +59,12 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=YOUR_CERTIFICATE_PASSWORD      
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=YOUR_CERTIFICATE_PASSWORD
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
       - ConnectionStrings__MicroserviceDbString=Server=sql1,1433;Database=CompanyMicroservicesNotifications;User Id=sa;Password=YOUR_SECURED_PASSWORD
+      - RabbitMQConfiguration__RabbitMQServer=rabbitmq
+      - RabbitMQConfiguration__RabbitMQUsername=YOUR_RABBITMQ_USERNAME
+      - RabbitMQConfiguration__RabbitMQPassword=YOUR_RABBITMQ_PASSWORD
     volumes:
       - ~/.aspnet/https:/https:ro
     ports:
@@ -64,4 +76,5 @@ services:
       - REACT_APP_COMPANY_COURSE=https://localhost:8051/swagger/index.html
       - REACT_APP_COMPANY_DEPARTMENT=https://localhost:8052/swagger/index.html
       - REACT_APP_COMPANY_EMPLOYEE=https://localhost:8053/swagger/index.html
-      - REACT_APP_COMPANY_NOTIFICATION=https://localhost:8054/swagger/index.html     
+      - REACT_APP_COMPANY_NOTIFICATION=https://localhost:8054/swagger/index.html
+      - REACT_APP_RABBITMQ=http://localhost:15672/
