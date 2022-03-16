@@ -30,4 +30,6 @@ module "k8s" {
   mssql_server           = module.azurerm.mssql_server
   mssql_server_admin     = module.azurerm.mssql_server_admin
   mssql_server_password  = module.azurerm.mssql_server_password
+  rabbitmq_username      = var.rabbitmq_username
+  rabbitmq_password      = var.rabbitmq_password
 }

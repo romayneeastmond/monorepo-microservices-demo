@@ -30,10 +30,10 @@ builder.Services.AddMassTransit(config =>
 
         if (string.IsNullOrWhiteSpace(rabbitMQServer))
         {
-            rabbitMQServer = "localhost:5672";
+            rabbitMQServer = "localhost";
         }
 
-        rabbitMqConfig.Host(new Uri($"rabbitmq://{rabbitMQServer}"), h =>
+        rabbitMqConfig.Host(new Uri($"rabbitmq://{rabbitMQServer}:5672"), h =>
         {
             if (!string.IsNullOrWhiteSpace(rabbitMQUsername))
             {
