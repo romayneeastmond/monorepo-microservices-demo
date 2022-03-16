@@ -18,7 +18,7 @@ variables:
   vmImageName: "ubuntu-latest"
 
 stages:
-  - stage: Build and Publish Company.Course to Registry
+  - stage: Build and Publish CompanyCourse to Registry
     displayName: Build Stage
     jobs:
       - job: Build
@@ -37,7 +37,7 @@ stages:
               tags: |
                 $(tag)
 
-  - stage: Build and Publish Company.Department to Registry
+  - stage: Build and Publish CompanyDepartment to Registry
     displayName: Build Stage
     jobs:
       - job: Build
@@ -56,7 +56,7 @@ stages:
               tags: |
                 $(tag)
 
-  - stage: Build and Publish Company.Employee to Registry
+  - stage: Build and Publish CompanyEmployee to Registry
     displayName: Build Stage
     jobs:
       - job: Build
@@ -75,7 +75,7 @@ stages:
               tags: |
                 $(tag)
 
-  - stage: Build and Publish Company.Notification to Registry
+  - stage: Build and Publish CompanyNotification to Registry
     displayName: Build Stage
     jobs:
       - job: Build
@@ -94,7 +94,7 @@ stages:
               tags: |
                 $(tag)
 
-  - stage: Build and Publish Microservices.Catalogue to Registry
+  - stage: Build and Publish MicroservicesCatalogue to Registry
     displayName: Build Stage
     jobs:
       - job: Build
