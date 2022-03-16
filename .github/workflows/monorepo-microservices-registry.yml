@@ -1,4 +1,4 @@
-name: Azure Publish Images to Registry
+name: Azure Push Images to Registry
 
 on:
   workflow_dispatch:
@@ -17,27 +17,27 @@ jobs:
               username: ${{ SECRETS.REGISTRY_USERNAME }}
               password: ${{ SECRETS.REGISTRY_PASSWORD }}
 
-        - name: Publish Company.Course to Registry
+        - name: Push Company.Course to Registry
           run: |
             docker build -f ./Company.Course/Company.Course.Api/Dockerfile -t devcontainerregistryre02.azurecr.io/company-course:ci-1.0.1 .
             docker push devcontainerregistryre02.azurecr.io/company-course:ci-1.0.1
             
-        - name: Publish Company.Department to Registry
+        - name: Push Company.Department to Registry
           run: |
             docker build -f ./Company.Department/Company.Department.Api/Dockerfile -t devcontainerregistryre02.azurecr.io/company-department:ci-1.0.1 .
             docker push devcontainerregistryre02.azurecr.io/company-department:ci-1.0.1
             
-        - name: Publish Company.Employee to Registry
+        - name: Push Company.Employee to Registry
           run: |
             docker build -f ./Company.Employee/Company.Employee.Api/Dockerfile -t devcontainerregistryre02.azurecr.io/company-employee:ci-1.0.1 .
             docker push devcontainerregistryre02.azurecr.io/company-employee:ci-1.0.1
 
-        - name: Publish Company.Notification to Registry
+        - name: Push Company.Notification to Registry
           run: |
             docker build -f ./Company.Notification/Company.Notification.Api/Dockerfile -t devcontainerregistryre02.azurecr.io/company-notification:ci-1.0.1 .
             docker push devcontainerregistryre02.azurecr.io/company-notification:ci-1.0.1
 
-        - name: Publish Microservices.Catalogue to Registry
+        - name: Push Microservices.Catalogue to Registry
           run: |
             docker build -f ./Microservices.Catalogue/Dockerfile -t devcontainerregistryre02.azurecr.io/microservices-catalogue:ci-1.0.1 .
             docker push devcontainerregistryre02.azurecr.io/microservices-catalogue:ci-1.0.1            

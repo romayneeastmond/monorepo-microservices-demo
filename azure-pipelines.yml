@@ -11,17 +11,15 @@ resources:
 variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: "9e76791c-a634-4b59-b379-8219e99036d0"
-  imageRepository: "company-course"
   containerRegistry: "devcontainerregistryre02.azurecr.io"
-  dockerfilePath: "**/Company.Course/Company.Course.Api/Dockerfile"
-  tag: "$(Build.BuildId)"
+  tag: "latest"
 
   # Agent VM image name
   vmImageName: "ubuntu-latest"
 
 stages:
-  - stage: Build
-    displayName: Build stage
+  - stage: Build and Publish Company.Course to Registry
+    displayName: Build Stage
     jobs:
       - job: Build
         displayName: Build
@@ -29,11 +27,87 @@ stages:
           vmImage: $(vmImageName)
         steps:
           - task: Docker@2
-            displayName: Build and push an image to container registry
+            displayName: Build and Push Company.Course to Registry
             inputs:
               command: buildAndPush
-              repository: $(imageRepository)
-              dockerfile: $(dockerfilePath)
+              repository: "company-course"
+              dockerfile: "**/Company.Course/Company.Course.Api/Dockerfile"
+              buildContext: .
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(tag)
+
+  - stage: Build and Publish Company.Department to Registry
+    displayName: Build Stage
+    jobs:
+      - job: Build
+        displayName: Build
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: Docker@2
+            displayName: Build and Push Company.Department to Registry
+            inputs:
+              command: buildAndPush
+              repository: "company-department"
+              dockerfile: "**/Company.Department/Company.Department.Api/Dockerfile"
+              buildContext: .
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(tag)
+
+  - stage: Build and Publish Company.Employee to Registry
+    displayName: Build Stage
+    jobs:
+      - job: Build
+        displayName: Build
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: Docker@2
+            displayName: Build and Push Company.Employee to Registry
+            inputs:
+              command: buildAndPush
+              repository: "company-employee"
+              dockerfile: "**/Company.Employee/Company.Employee.Api/Dockerfile"
+              buildContext: .
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(tag)
+
+  - stage: Build and Publish Company.Notification to Registry
+    displayName: Build Stage
+    jobs:
+      - job: Build
+        displayName: Build
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: Docker@2
+            displayName: Build and Push Company.Notification to Registry
+            inputs:
+              command: buildAndPush
+              repository: "company-notification"
+              dockerfile: "**/Company.Notification/Company.Notification.Api/Dockerfile"
+              buildContext: .
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(tag)
+
+  - stage: Build and Publish Microservices.Catalogue to Registry
+    displayName: Build Stage
+    jobs:
+      - job: Build
+        displayName: Build
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: Docker@2
+            displayName: Build and Push Microservices.Catalogue to Registry
+            inputs:
+              command: buildAndPush
+              repository: "microservices-catalogue"
+              dockerfile: "**/Microservices.Catalogue/Dockerfile"
               buildContext: .
               containerRegistry: $(dockerRegistryServiceConnection)
               tags: |
