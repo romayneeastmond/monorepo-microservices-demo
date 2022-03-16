@@ -15,6 +15,8 @@ A sandbox environment for experimenting with CI/CD inside a monorepo. Each proje
 - [x] Create React microservices catalogue project
 - [x] Install RabbitMQ / MassTransit broker for EventBus
 - [x] Publish Docker containers to Azure Container Registry (ACR)
+- [x] Publish Docker containers to Azure Container Registry (ACR) with AzureDevOps
+- [ ] Optionally deploy containers to Azure Kubernetes Services with AzureDevOps
 - [ ] Optionally deploy containers to Azure Web Apps / Azure Container Instances
 - [x] Develop databases, migrations, and seed data
 - [ ] Create Apollo GraphQL

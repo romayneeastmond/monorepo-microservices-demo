@@ -18,11 +18,11 @@ variables:
   vmImageName: "ubuntu-latest"
 
 stages:
-  - stage: Build_Company_Course
+  - stage: Build
     displayName: Build Stage
     jobs:
       - job: Build
-        displayName: Build
+        displayName: Build Company.Course
         pool:
           vmImage: $(vmImageName)
         steps:
@@ -37,11 +37,8 @@ stages:
               tags: |
                 $(tag)
 
-  - stage: Build_Company_Department
-    displayName: Build Stage
-    jobs:
       - job: Build
-        displayName: Build
+        displayName: Build Company.Department
         pool:
           vmImage: $(vmImageName)
         steps:
@@ -56,11 +53,8 @@ stages:
               tags: |
                 $(tag)
 
-  - stage: Build_Company_Employee
-    displayName: Build Stage
-    jobs:
       - job: Build
-        displayName: Build
+        displayName: Build Company.Employee
         pool:
           vmImage: $(vmImageName)
         steps:
@@ -75,11 +69,8 @@ stages:
               tags: |
                 $(tag)
 
-  - stage: Build_Company_Notification
-    displayName: Build Stage
-    jobs:
       - job: Build
-        displayName: Build
+        displayName: Build Company.Notification
         pool:
           vmImage: $(vmImageName)
         steps:
@@ -94,11 +85,8 @@ stages:
               tags: |
                 $(tag)
 
-  - stage: Build_Microservices_Catalogue
-    displayName: Build Stage
-    jobs:
       - job: Build
-        displayName: Build
+        displayName: Build Microservices.Catalogue
         pool:
           vmImage: $(vmImageName)
         steps:
