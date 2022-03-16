@@ -30,3 +30,11 @@ variable "prefix" {
   type    = string
   default = "dev"
 }
+
+variable "rabbitmq_password" {
+  type = string
+}
+
+variable "rabbitmq_username" {
+  type = string
+}

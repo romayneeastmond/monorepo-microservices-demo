@@ -89,7 +89,7 @@ az ad sp create-for-rbac --name "SERVICE_PRINCIPAL_NAME"
 To scope to the current Azure Kubernetes Services (AKS) instance to run kubectl commands use
 
 ```
-az aks get-credentials --name AKS_INSTANCE_NAME --resource-group RESOURCE_GROUP_WHERE_AKS_INSTANCE_IS
+az aks get-credentials --name AKS_INSTANCE_NAME --resource-group RESOURCE_GROUP_WHERE_AKS_INSTANCE_IS --overwrite-existing
 ```
 
 #

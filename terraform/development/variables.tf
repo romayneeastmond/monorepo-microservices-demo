@@ -1,3 +1,11 @@
+variable "rabbitmq_password" {
+  type = string
+}
+
+variable "rabbitmq_username" {
+  type = string
+}
+
 variable "service_principal" {
   type = string
 }
