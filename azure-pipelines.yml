@@ -21,7 +21,7 @@ stages:
   - stage: Build
     displayName: Build Stage
     jobs:
-      - job: Build
+      - job: build_company_course
         displayName: Build Company.Course
         pool:
           vmImage: $(vmImageName)
@@ -37,7 +37,7 @@ stages:
               tags: |
                 $(tag)
 
-      - job: Build
+      - job: build_company_department
         displayName: Build Company.Department
         pool:
           vmImage: $(vmImageName)
@@ -53,7 +53,7 @@ stages:
               tags: |
                 $(tag)
 
-      - job: Build
+      - job: build_company_employee
         displayName: Build Company.Employee
         pool:
           vmImage: $(vmImageName)
@@ -69,7 +69,7 @@ stages:
               tags: |
                 $(tag)
 
-      - job: Build
+      - job: build_company_notification
         displayName: Build Company.Notification
         pool:
           vmImage: $(vmImageName)
@@ -85,7 +85,7 @@ stages:
               tags: |
                 $(tag)
 
-      - job: Build
+      - job: build_microservices_catalogue
         displayName: Build Microservices.Catalogue
         pool:
           vmImage: $(vmImageName)
