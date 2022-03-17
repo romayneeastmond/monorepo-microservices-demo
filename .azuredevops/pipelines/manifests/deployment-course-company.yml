@@ -17,4 +17,4 @@ spec:
           image: devcontainerregistryre02.azurecr.io/company-course
           ports:
           - containerPort: 80
-	  - containerPort: 433
+          - containerPort: 433
