@@ -13,11 +13,23 @@ variables:
   dockerRegistryServiceConnection: "9e76791c-a634-4b59-b379-8219e99036d0"
   containerRegistry: "devcontainerregistryre02.azurecr.io"
   tag: "latest"
+  imagePullSecret: "devcontainerregistryre022029812b-auth"
 
   # Agent VM image name
   vmImageName: "ubuntu-latest"
 
 stages:
+  - stage: Upload
+    displayName: Upload Stage
+    jobs:
+      - job: upload_manifests
+        displayName: Upload Manifests
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - upload: ./azuredevops/pipelines/manifests
+            artifact: manifests
+
   - stage: Build
     displayName: Build Stage
     jobs:
@@ -37,66 +49,33 @@ stages:
               tags: |
                 $(tag)
 
-      - job: build_company_department
-        displayName: Build Company.Department
-        pool:
-          vmImage: $(vmImageName)
-        steps:
-          - task: Docker@2
-            displayName: Build and Push Company.Department to Registry
-            inputs:
-              command: buildAndPush
-              repository: "company-department"
-              dockerfile: "**/Company.Department/Company.Department.Api/Dockerfile"
-              buildContext: .
-              containerRegistry: $(dockerRegistryServiceConnection)
-              tags: |
-                $(tag)
+  - stage: Deploy
+    displayName: Deploy Stage
+    dependsOn: Build
 
-      - job: build_company_employee
-        displayName: Build Company.Employee
+    jobs:
+      - deployment: deploy_company_course
+        displayName: Deploy Company.Course
         pool:
           vmImage: $(vmImageName)
-        steps:
-          - task: Docker@2
-            displayName: Build and Push Company.Employee to Registry
-            inputs:
-              command: buildAndPush
-              repository: "company-employee"
-              dockerfile: "**/Company.Employee/Company.Employee.Api/Dockerfile"
-              buildContext: .
-              containerRegistry: $(dockerRegistryServiceConnection)
-              tags: |
-                $(tag)
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: KubernetesManifest@0
+                  displayName: Create imagePullSecret
+                  inputs:
+                    action: createSecret
+                    secretName: $(imagePullSecret)
+                    dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
 
-      - job: build_company_notification
-        displayName: Build Company.Notification
-        pool:
-          vmImage: $(vmImageName)
-        steps:
-          - task: Docker@2
-            displayName: Build and Push Company.Notification to Registry
-            inputs:
-              command: buildAndPush
-              repository: "company-notification"
-              dockerfile: "**/Company.Notification/Company.Notification.Api/Dockerfile"
-              buildContext: .
-              containerRegistry: $(dockerRegistryServiceConnection)
-              tags: |
-                $(tag)
-
-      - job: build_microservices_catalogue
-        displayName: Build Microservices.Catalogue
-        pool:
-          vmImage: $(vmImageName)
-        steps:
-          - task: Docker@2
-            displayName: Build and Push Microservices.Catalogue to Registry
-            inputs:
-              command: buildAndPush
-              repository: "microservices-catalogue"
-              dockerfile: "**/Microservices.Catalogue/Dockerfile"
-              buildContext: .
-              containerRegistry: $(dockerRegistryServiceConnection)
-              tags: |
-                $(tag)
+                - task: KubernetesManifest@0
+                  displayName: Deploy Company.Course to Kubernetes Cluster
+                  inputs:
+                    action: deploy
+                    manifests: |
+                      $(Pipeline.Workspace)/manifests/deployment-course-company.yml
+                    imagePullSecrets: |
+                      $(imagePullSecret)
+                    containers: |
+                      $(containerRegistry)/company-course:$(tag)

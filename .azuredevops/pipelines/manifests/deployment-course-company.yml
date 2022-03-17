@@ -1,0 +1,30 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: company-course-latest
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: company-course-latest
+  template:
+    metadata:
+      labels:
+        app:company-course-latest
+    spec:
+      containers:
+        - name: company-course-latest
+          image: devcontainerregistryre02.azurecr.io/company-course
+          ports:
+          - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: company-course-load-balancer-latest
+spec:
+    type: LoadBalancer
+    ports:
+    - port: 80 
+    selector:
+        app: company-course-latest
