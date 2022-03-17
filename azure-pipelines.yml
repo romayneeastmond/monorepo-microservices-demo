@@ -27,7 +27,7 @@ stages:
         pool:
           vmImage: $(vmImageName)
         steps:
-          - upload: ./azuredevops/pipelines/manifests
+          - upload: "**/.azuredevops/pipelines/manifests"
             artifact: manifests
 
   - stage: Build
