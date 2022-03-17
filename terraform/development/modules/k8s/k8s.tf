@@ -17,7 +17,7 @@ resource "kubernetes_pod" "main_pod_rabbitmq" {
   metadata {
     name = "rabbitmq"
     labels = {
-      app = "main_pod_company_course"
+      app = "main_pod_rabbitmq"
     }
   }
 
