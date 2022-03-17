@@ -75,7 +75,7 @@ stages:
                   inputs:
                     action: deploy
                     manifests: |
-                      $(Pipeline.Workspace)/manifests/pod-course-company.yml
+                      $(Pipeline.Workspace)/manifests/deployment-course-company.yml
                     imagePullSecrets: |
                       $(imagePullSecret)
                     containers: |
