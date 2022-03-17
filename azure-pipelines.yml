@@ -58,6 +58,7 @@ stages:
         displayName: Deploy Company.Course
         pool:
           vmImage: $(vmImageName)
+        environment: "dev-kubernetes-cluster-re02.default"
         strategy:
           runOnce:
             deploy:
