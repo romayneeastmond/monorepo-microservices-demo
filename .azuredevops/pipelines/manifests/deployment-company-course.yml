@@ -20,3 +20,29 @@ spec:
           ports:
           - containerPort: 80
           - containerPort: 433
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  name: main-config-map-01
+                  key: aspnetcore_environment
+            - name: ConnectionStrings__MicroserviceDbString
+              valueFrom:
+                configMapKeyRef:
+                  name: main-config-map-01
+                  key: connection_string_company_course 
+            - name: RabbitMQConfiguration__RabbitMQServer
+              valueFrom:
+                configMapKeyRef:
+                  name: main-config-map-01
+                  key: rabbitmq_server
+            - name: RabbitMQConfiguration__RabbitMQUsername
+              valueFrom:
+                configMapKeyRef:
+                  name: main-config-map-01
+                  key: rabbitmq_username
+            - name: RabbitMQConfiguration__RabbitMQPassword
+              valueFrom:
+                configMapKeyRef:
+                  name: main-config-map-01
+                  key: rabbitmq_password                                                                
