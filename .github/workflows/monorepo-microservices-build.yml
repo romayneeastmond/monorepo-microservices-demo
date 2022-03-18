@@ -35,7 +35,7 @@ jobs:
     - name: Build and Publish
       run: |
         dotnet build --no-restore
-        dotnet publish -c Release -o ./Company.Course/dotnetframework-webapp -r win-x64 --self-contained true /p:UseAppHost=true
+        dotnet publish -c Release -o ./dotnetframework-webapp -r win-x64 --self-contained true /p:UseAppHost=true
       
     - name: Test
       run: dotnet test --no-build --verbosity normal 
@@ -65,7 +65,7 @@ jobs:
     - name: Build and Publish
       run: |
         dotnet build --no-restore
-        dotnet publish -c Release -o ./Company.Department/dotnetframework-webapp -r win-x64 --self-contained true /p:UseAppHost=true
+        dotnet publish -c Release -o ./dotnetframework-webapp -r win-x64 --self-contained true /p:UseAppHost=true
       
     - name: Test
       run: dotnet test --no-build --verbosity normal 
@@ -95,7 +95,7 @@ jobs:
     - name: Build and Publish
       run: |
         dotnet build --no-restore
-        dotnet publish -c Release -o ./Company.Employee/dotnetframework-webapp -r win-x64 --self-contained true /p:UseAppHost=true
+        dotnet publish -c Release -o ./dotnetframework-webapp -r win-x64 --self-contained true /p:UseAppHost=true
       
     - name: Test
       run: dotnet test --no-build --verbosity normal 
@@ -125,7 +125,7 @@ jobs:
     - name: Build and Publish
       run: |
         dotnet build --no-restore
-        dotnet publish -c Release -o ./Company.Notification/dotnetframework-webapp -r win-x64 --self-contained true /p:UseAppHost=true
+        dotnet publish -c Release -o ./dotnetframework-webapp -r win-x64 --self-contained true /p:UseAppHost=true
       
     - name: Test
       run: dotnet test --no-build --verbosity normal 
