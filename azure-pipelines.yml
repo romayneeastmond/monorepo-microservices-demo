@@ -32,6 +32,7 @@ stages:
 
   - stage: Build
     displayName: Build Stage
+
     jobs:
       - job: build_company_course
         displayName: Build Company.Course
@@ -118,73 +119,100 @@ stages:
     dependsOn: Build
 
     jobs:
-      - deployment: deploy_company_course
-        displayName: Deploy Company.Course
+      - deployment: deploy_microservices
+        displayName: Deploy Microservices
         pool:
           vmImage: $(vmImageName)
         environment: "dev-kubernetes-cluster-re02.default"
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-                - task: KubernetesManifest@0
-                  displayName: Create imagePullSecret
-                  inputs:
-                    action: createSecret
-                    secretName: $(imagePullSecret)
-                    dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
 
-                - task: KubernetesManifest@0
-                  displayName: Deploy Company.Course to Kubernetes cluster
-                  inputs:
-                    action: deploy
-                    manifests: |
-                      $(Pipeline.Workspace)/manifests/deployment-company-course.yml
-                    imagePullSecrets: |
-                      $(imagePullSecret)
-                    containers: |
-                      $(containerRegistry)/company-course:$(tag)
+      - job: create_image_pull_secret
+        displayName: Create imagePullSecret
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: KubernetesManifest@0
+            displayName: Create imagePullSecret
+            inputs:
+              action: createSecret
+              secretName: $(imagePullSecret)
+              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
 
-                - task: KubernetesManifest@0
-                  displayName: Deploy Company.Department to Kubernetes cluster
-                  inputs:
-                    action: deploy
-                    manifests: |
-                      $(Pipeline.Workspace)/manifests/deployment-company-department.yml
-                    imagePullSecrets: |
-                      $(imagePullSecret)
-                    containers: |
-                      $(containerRegistry)/company-department:$(tag)
+      - job: deploy_company_course
+        displayName: Build Company.Course
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: KubernetesManifest@0
+            displayName: Deploy Company.Course to Kubernetes cluster
+            inputs:
+              action: deploy
+              manifests: |
+                $(Pipeline.Workspace)/manifests/deployment-company-course.yml
+              imagePullSecrets: |
+                $(imagePullSecret)
+              containers: |
+                $(containerRegistry)/company-course:$(tag)
 
-                - task: KubernetesManifest@0
-                  displayName: Deploy Company.Employee to Kubernetes cluster
-                  inputs:
-                    action: deploy
-                    manifests: |
-                      $(Pipeline.Workspace)/manifests/deployment-company-employee.yml
-                    imagePullSecrets: |
-                      $(imagePullSecret)
-                    containers: |
-                      $(containerRegistry)/company-employee:$(tag)
+      - job: deploy_company_department
+        displayName: Deploy Company.Department
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: KubernetesManifest@0
+            displayName: Deploy Company.Department to Kubernetes cluster
+            inputs:
+              action: deploy
+              manifests: |
+                $(Pipeline.Workspace)/manifests/deployment-company-department.yml
+              imagePullSecrets: |
+                $(imagePullSecret)
+              containers: |
+                $(containerRegistry)/company-department:$(tag)
 
-                - task: KubernetesManifest@0
-                  displayName: Deploy Company.Notification to Kubernetes cluster
-                  inputs:
-                    action: deploy
-                    manifests: |
-                      $(Pipeline.Workspace)/manifests/deployment-company-notification.yml
-                    imagePullSecrets: |
-                      $(imagePullSecret)
-                    containers: |
-                      $(containerRegistry)/company-notification:$(tag)
+      - job: deploy_company_employee
+        displayName: Deploy Company.Employee
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: KubernetesManifest@0
+            displayName: Deploy Company.Employee to Kubernetes cluster
+            inputs:
+              action: deploy
+              manifests: |
+                $(Pipeline.Workspace)/manifests/deployment-company-employee.yml
+              imagePullSecrets: |
+                $(imagePullSecret)
+              containers: |
+                $(containerRegistry)/company-employee:$(tag)
 
-                - task: KubernetesManifest@0
-                  displayName: Deploy Microservices.Catalogue to Kubernetes cluster
-                  inputs:
-                    action: deploy
-                    manifests: |
-                      $(Pipeline.Workspace)/manifests/deployment-microservices-catalogue.yml
-                    imagePullSecrets: |
-                      $(imagePullSecret)
-                    containers: |
-                      $(containerRegistry)/microservices-catalogue:$(tag)
+      - job: deploy_company_notification
+        displayName: Deploy Company.Notification
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: KubernetesManifest@0
+            displayName: Deploy Company.Notification to Kubernetes cluster
+            inputs:
+              action: deploy
+              manifests: |
+                $(Pipeline.Workspace)/manifests/deployment-company-notification.yml
+              imagePullSecrets: |
+                $(imagePullSecret)
+              containers: |
+                $(containerRegistry)/company-notification:$(tag)
+
+      - job: deploy_microservices_catalogue
+        displayName: Deploy Microservices.Catalogue
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: KubernetesManifest@0
+            displayName: Deploy Microservices.Catalogue to Kubernetes cluster
+            inputs:
+              action: deploy
+              manifests: |
+                $(Pipeline.Workspace)/manifests/deployment-microservices-catalogue.yml
+              imagePullSecrets: |
+                $(imagePullSecret)
+              containers: |
+                $(containerRegistry)/microservices-catalogue:$(tag)
