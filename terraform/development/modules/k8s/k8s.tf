@@ -17,7 +17,7 @@ resource "kubernetes_pod" "main_pod_rabbitmq" {
   metadata {
     name = "rabbitmq"
     labels = {
-      app = "main_pod_company_course"
+      app = "main_pod_rabbitmq"
     }
   }
 
@@ -75,6 +75,23 @@ resource "kubernetes_service" "main_loadbalancer_rabbitmq_02" {
   }
 }
 
+resource "kubernetes_config_map" "main_config_map_01" {
+  metadata {
+    name = "main-config-map-01"
+  }
+
+  data = {
+    aspnetcore_environment                 = "Development"
+    connection_string_company_course       = "Data Source=tcp:${var.mssql_server}.database.windows.net,1433;Initial Catalog=CompanyMicroservicesCourses;User Id=${var.mssql_server_admin}@${var.mssql_server};Password=${var.mssql_server_password}"
+    connection_string_company_department   = "Data Source=tcp:${var.mssql_server}.database.windows.net,1433;Initial Catalog=CompanyMicroservicesDepartments;User Id=${var.mssql_server_admin}@${var.mssql_server};Password=${var.mssql_server_password}"
+    connection_string_company_employee     = "Data Source=tcp:${var.mssql_server}.database.windows.net,1433;Initial Catalog=CompanyMicroservicesEmployees;User Id=${var.mssql_server_admin}@${var.mssql_server};Password=${var.mssql_server_password}"
+    connection_string_company_notification = "Data Source=tcp:${var.mssql_server}.database.windows.net,1433;Initial Catalog=CompanyMicroservicesNotifications;User Id=${var.mssql_server_admin}@${var.mssql_server};Password=${var.mssql_server_password}"
+    rabbitmq_server                        = kubernetes_service.main_loadbalancer_rabbitmq_01.status.0.load_balancer.0.ingress.0.ip
+    rabbitmq_username                      = var.rabbitmq_username
+    rabbitmq_password                      = var.rabbitmq_password
+  }
+}
+
 resource "kubernetes_pod" "main_pod_company_course" {
   metadata {
     name = "company-course"
@@ -98,27 +115,27 @@ resource "kubernetes_pod" "main_pod_company_course" {
 
       env {
         name  = "ASPNETCORE_ENVIRONMENT"
-        value = "Development"
+        value = kubernetes_config_map.main_config_map_01.data.aspnetcore_environment
       }
 
       env {
         name  = "ConnectionStrings__MicroserviceDbString"
-        value = "Data Source=tcp:${var.mssql_server}.database.windows.net,1433;Initial Catalog=CompanyMicroservicesCourses;User Id=${var.mssql_server_admin}@${var.mssql_server};Password=${var.mssql_server_password}"
+        value = kubernetes_config_map.main_config_map_01.data.connection_string_company_course
       }
 
       env {
         name  = "RabbitMQConfiguration__RabbitMQServer"
-        value = kubernetes_service.main_loadbalancer_rabbitmq_01.status.0.load_balancer.0.ingress.0.ip
+        value = kubernetes_config_map.main_config_map_01.data.rabbitmq_server
       }
 
       env {
         name  = "RabbitMQConfiguration__RabbitMQUsername"
-        value = var.rabbitmq_username
+        value = kubernetes_config_map.main_config_map_01.data.rabbitmq_username
       }
 
       env {
         name  = "RabbitMQConfiguration__RabbitMQPassword"
-        value = var.rabbitmq_password
+        value = kubernetes_config_map.main_config_map_01.data.rabbitmq_password
       }
     }
   }
@@ -167,27 +184,27 @@ resource "kubernetes_pod" "main_pod_company_department" {
 
       env {
         name  = "ASPNETCORE_ENVIRONMENT"
-        value = "Development"
+        value = kubernetes_config_map.main_config_map_01.data.aspnetcore_environment
       }
 
       env {
         name  = "ConnectionStrings__MicroserviceDbString"
-        value = "Data Source=tcp:${var.mssql_server}.database.windows.net,1433;Initial Catalog=CompanyMicroservicesDepartments;User Id=${var.mssql_server_admin}@${var.mssql_server};Password=${var.mssql_server_password}"
+        value = kubernetes_config_map.main_config_map_01.data.connection_string_company_department
       }
 
       env {
         name  = "RabbitMQConfiguration__RabbitMQServer"
-        value = kubernetes_service.main_loadbalancer_rabbitmq_01.status.0.load_balancer.0.ingress.0.ip
+        value = kubernetes_config_map.main_config_map_01.data.rabbitmq_server
       }
 
       env {
         name  = "RabbitMQConfiguration__RabbitMQUsername"
-        value = var.rabbitmq_username
+        value = kubernetes_config_map.main_config_map_01.data.rabbitmq_username
       }
 
       env {
         name  = "RabbitMQConfiguration__RabbitMQPassword"
-        value = var.rabbitmq_password
+        value = kubernetes_config_map.main_config_map_01.data.rabbitmq_password
       }
     }
   }
@@ -235,27 +252,27 @@ resource "kubernetes_pod" "main_pod_company_employee" {
 
       env {
         name  = "ASPNETCORE_ENVIRONMENT"
-        value = "Development"
+        value = kubernetes_config_map.main_config_map_01.data.aspnetcore_environment
       }
 
       env {
         name  = "ConnectionStrings__MicroserviceDbString"
-        value = "Data Source=tcp:${var.mssql_server}.database.windows.net,1433;Initial Catalog=CompanyMicroservicesEmployees;User Id=${var.mssql_server_admin}@${var.mssql_server};Password=${var.mssql_server_password}"
+        value = kubernetes_config_map.main_config_map_01.data.connection_string_company_employee
       }
 
       env {
         name  = "RabbitMQConfiguration__RabbitMQServer"
-        value = kubernetes_service.main_loadbalancer_rabbitmq_01.status.0.load_balancer.0.ingress.0.ip
+        value = kubernetes_config_map.main_config_map_01.data.rabbitmq_server
       }
 
       env {
         name  = "RabbitMQConfiguration__RabbitMQUsername"
-        value = var.rabbitmq_username
+        value = kubernetes_config_map.main_config_map_01.data.rabbitmq_username
       }
 
       env {
         name  = "RabbitMQConfiguration__RabbitMQPassword"
-        value = var.rabbitmq_password
+        value = kubernetes_config_map.main_config_map_01.data.rabbitmq_password
       }
     }
   }
@@ -303,27 +320,27 @@ resource "kubernetes_pod" "main_pod_company_notification" {
 
       env {
         name  = "ASPNETCORE_ENVIRONMENT"
-        value = "Development"
+        value = kubernetes_config_map.main_config_map_01.data.aspnetcore_environment
       }
 
       env {
         name  = "ConnectionStrings__MicroserviceDbString"
-        value = "Data Source=tcp:${var.mssql_server}.database.windows.net,1433;Initial Catalog=CompanyMicroservicesNotifications;User Id=${var.mssql_server_admin}@${var.mssql_server};Password=${var.mssql_server_password}"
+        value = kubernetes_config_map.main_config_map_01.data.connection_string_company_notification
       }
 
       env {
         name  = "RabbitMQConfiguration__RabbitMQServer"
-        value = kubernetes_service.main_loadbalancer_rabbitmq_01.status.0.load_balancer.0.ingress.0.ip
+        value = kubernetes_config_map.main_config_map_01.data.rabbitmq_server
       }
 
       env {
         name  = "RabbitMQConfiguration__RabbitMQUsername"
-        value = var.rabbitmq_username
+        value = kubernetes_config_map.main_config_map_01.data.rabbitmq_username
       }
 
       env {
         name  = "RabbitMQConfiguration__RabbitMQPassword"
-        value = var.rabbitmq_password
+        value = kubernetes_config_map.main_config_map_01.data.rabbitmq_password
       }
     }
   }
@@ -348,6 +365,20 @@ resource "kubernetes_service" "main_loadbalancer_company_notification" {
   }
 }
 
+resource "kubernetes_config_map" "main_config_map_02" {
+  metadata {
+    name = "main-config-map-02"
+  }
+
+  data = {
+    react_app_company_course       = "http://${kubernetes_service.main_loadbalancer_company_course.status.0.load_balancer.0.ingress.0.ip}/swagger/index.html"
+    react_app_company_department   = "http://${kubernetes_service.main_loadbalancer_company_department.status.0.load_balancer.0.ingress.0.ip}/swagger/index.html"
+    react_app_company_employee     = "http://${kubernetes_service.main_loadbalancer_company_employee.status.0.load_balancer.0.ingress.0.ip}/swagger/index.html"
+    react_app_company_notification = "http://${kubernetes_service.main_loadbalancer_company_notification.status.0.load_balancer.0.ingress.0.ip}/swagger/index.html"
+    react_app_rabbitmq             = "http://${kubernetes_service.main_loadbalancer_rabbitmq_02.status.0.load_balancer.0.ingress.0.ip}"
+  }
+}
+
 resource "kubernetes_pod" "main_pod_microservices_catalogue" {
   metadata {
     name = "microservices-catalogue"
@@ -367,27 +398,27 @@ resource "kubernetes_pod" "main_pod_microservices_catalogue" {
 
       env {
         name  = "REACT_APP_COMPANY_COURSE"
-        value = "http://${kubernetes_service.main_loadbalancer_company_course.status.0.load_balancer.0.ingress.0.ip}/swagger/index.html"
+        value = kubernetes_config_map.main_config_map_02.data.react_app_company_course
       }
 
       env {
         name  = "REACT_APP_COMPANY_DEPARTMENT"
-        value = "http://${kubernetes_service.main_loadbalancer_company_department.status.0.load_balancer.0.ingress.0.ip}/swagger/index.html"
+        value = kubernetes_config_map.main_config_map_02.data.react_app_company_department
       }
 
       env {
         name  = "REACT_APP_COMPANY_EMPLOYEE"
-        value = "http://${kubernetes_service.main_loadbalancer_company_employee.status.0.load_balancer.0.ingress.0.ip}/swagger/index.html"
+        value = kubernetes_config_map.main_config_map_02.data.react_app_company_employee
       }
 
       env {
         name  = "REACT_APP_COMPANY_NOTIFICATION"
-        value = "http://${kubernetes_service.main_loadbalancer_company_notification.status.0.load_balancer.0.ingress.0.ip}/swagger/index.html"
+        value = kubernetes_config_map.main_config_map_02.data.react_app_company_notification
       }
 
       env {
         name  = "REACT_APP_RABBITMQ"
-        value = "http://${kubernetes_service.main_loadbalancer_rabbitmq_02.status.0.load_balancer.0.ingress.0.ip}"
+        value = kubernetes_config_map.main_config_map_02.data.react_app_rabbitmq
       }
     }
   }

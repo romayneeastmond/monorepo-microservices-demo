@@ -1,0 +1,21 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: microservices-catalogue-deployment
+  labels:
+    app: main_deployment_microservices_catalogue
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: main_deployment_microservices_catalogue
+  template:
+    metadata:
+      labels:
+        app: main_deployment_microservices_catalogue
+    spec:
+      containers:
+        - name: microservices-catalogue
+          image: devcontainerregistryre02.azurecr.io/microservices-catalogue
+          ports:
+          - containerPort: 3000                                                            

@@ -1,0 +1,22 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: company-course-deployment
+  labels:
+    app: main_deployment_company_course
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: main_deployment_company_course
+  template:
+    metadata:
+      labels:
+        app: main_deployment_company_course
+    spec:
+      containers:
+        - name: company-course
+          image: devcontainerregistryre02.azurecr.io/company-course
+          ports:
+          - containerPort: 80
+          - containerPort: 433                                                             

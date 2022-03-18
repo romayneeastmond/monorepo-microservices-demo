@@ -1,0 +1,22 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: company-department-deployment
+  labels:
+    app: main_deployment_company_department
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: main_deployment_company_department
+  template:
+    metadata:
+      labels:
+        app: main_deployment_company_department
+    spec:
+      containers:
+        - name: company-department
+          image: devcontainerregistryre02.azurecr.io/company-department
+          ports:
+          - containerPort: 80
+          - containerPort: 433                                                             
