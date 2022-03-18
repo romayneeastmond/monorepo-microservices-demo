@@ -204,7 +204,7 @@ resource "azurerm_app_service" "main_company_employee" {
 }
 
 resource "azurerm_app_service" "main_company_notification" {
-  name                = "${var.prefix}-aspnet-company-notifications-re01"
+  name                = "${var.prefix}-aspnet-company-notification-re01"
   resource_group_name = azurerm_resource_group.main_resource_group.name
   location            = azurerm_resource_group.main_resource_group.location
   app_service_plan_id = azurerm_app_service_plan.main_app_service_plan_01.id
