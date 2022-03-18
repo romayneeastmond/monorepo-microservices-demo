@@ -13,7 +13,7 @@ variables:
   dockerRegistryServiceConnection: "9e76791c-a634-4b59-b379-8219e99036d0"
   containerRegistry: "devcontainerregistryre02.azurecr.io"
   tag: "latest"
-  imagePullSecret: "devcontainerregistryre022029812b-auth"  
+  imagePullSecret: "devcontainerregistryre022029812b-auth"
 
   # Agent VM image name
   vmImageName: "ubuntu-latest"
@@ -29,7 +29,7 @@ stages:
         steps:
           - upload: ./.azuredevops/pipelines/manifests
             artifact: manifests
-            
+
   - stage: Build
     displayName: Build Stage
     jobs:
@@ -48,7 +48,71 @@ stages:
               containerRegistry: $(dockerRegistryServiceConnection)
               tags: |
                 $(tag)
-                
+
+      - job: build_company_department
+        displayName: Build Company.Department
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: Docker@2
+            displayName: Build and Push Company.Department to Registry
+            inputs:
+              command: buildAndPush
+              repository: "company-department"
+              dockerfile: "**/Company.Department/Company.Department.Api/Dockerfile"
+              buildContext: .
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(tag)
+
+      - job: build_company_employee
+        displayName: Build Company.Employee
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: Docker@2
+            displayName: Build and Push Company.Employee to Registry
+            inputs:
+              command: buildAndPush
+              repository: "company-employee"
+              dockerfile: "**/Company.Employee/Company.Employee.Api/Dockerfile"
+              buildContext: .
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(tag)
+
+      - job: build_company_notification
+        displayName: Build Company.Notification
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: Docker@2
+            displayName: Build and Push Company.Notification to Registry
+            inputs:
+              command: buildAndPush
+              repository: "company-notification"
+              dockerfile: "**/Company.Notification/Company.Notification.Api/Dockerfile"
+              buildContext: .
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(tag)
+
+      - job: build_microservices_catalogue
+        displayName: Build Microservices.Catalogue
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: Docker@2
+            displayName: Build and Push Microservices.Catalogue to Registry
+            inputs:
+              command: buildAndPush
+              repository: "microservices-catalogue"
+              dockerfile: "**/Microservices.Catalogue/Dockerfile"
+              buildContext: .
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(tag)
+
   - stage: Deploy
     displayName: Deploy Stage
     dependsOn: Build
@@ -79,4 +143,48 @@ stages:
                     imagePullSecrets: |
                       $(imagePullSecret)
                     containers: |
-                      $(containerRegistry)/company-course:$(tag)                
+                      $(containerRegistry)/company-course:$(tag)
+
+                - task: KubernetesManifest@0
+                  displayName: Deploy Company.Department to Kubernetes cluster
+                  inputs:
+                    action: deploy
+                    manifests: |
+                      $(Pipeline.Workspace)/manifests/deployment-company-department.yml
+                    imagePullSecrets: |
+                      $(imagePullSecret)
+                    containers: |
+                      $(containerRegistry)/company-department:$(tag)
+
+                - task: KubernetesManifest@0
+                  displayName: Deploy Company.Employee to Kubernetes cluster
+                  inputs:
+                    action: deploy
+                    manifests: |
+                      $(Pipeline.Workspace)/manifests/deployment-company-employee.yml
+                    imagePullSecrets: |
+                      $(imagePullSecret)
+                    containers: |
+                      $(containerRegistry)/company-employee:$(tag)
+
+                - task: KubernetesManifest@0
+                  displayName: Deploy Company.Notification to Kubernetes cluster
+                  inputs:
+                    action: deploy
+                    manifests: |
+                      $(Pipeline.Workspace)/manifests/deployment-company-notification.yml
+                    imagePullSecrets: |
+                      $(imagePullSecret)
+                    containers: |
+                      $(containerRegistry)/company-notification:$(tag)
+
+                - task: KubernetesManifest@0
+                  displayName: Deploy Microservices.Catalogue to Kubernetes cluster
+                  inputs:
+                    action: deploy
+                    manifests: |
+                      $(Pipeline.Workspace)/manifests/deployment-microservices-catalogue.yml
+                    imagePullSecrets: |
+                      $(imagePullSecret)
+                    containers: |
+                      $(containerRegistry)/microservices-catalogue:$(tag)

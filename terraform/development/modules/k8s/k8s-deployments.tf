@@ -13,6 +13,125 @@
 #   cluster_ca_certificate = var.cluster_ca_certificate
 # }
 
+# resource "kubernetes_deployment" "main_deployment_rabbitmq" {
+#   metadata {
+#     name = "rabbitmq-deployment"
+#     labels = {
+#       app = "main_deployment_rabbitmq"
+#     }
+#   }
+
+#   spec {
+#     replicas = 2
+
+#     selector {
+#       match_labels = {
+#         app = "main_deployment_rabbitmq"
+#       }
+#     }
+
+#     template {
+#       metadata {
+#         labels = {
+#           app = "main_deployment_rabbitmq"
+#         }
+#       }
+
+#       spec {
+#         container {
+#           image = "rabbitmq:3-management-alpine"
+#           name  = "rabbitmq"
+
+#           port {
+#             container_port = 5672
+#           }
+
+#           port {
+#             container_port = 15672
+#           }
+
+#           resources {
+#             requests = {
+#               cpu    = "250m"
+#               memory = "64Mi"
+#             }
+
+#             limits = {
+#               cpu    = "500m"
+#               memory = "256Mi"
+#             }
+#           }
+
+#           liveness_probe {
+#             http_get {
+#               path = "/"
+#               port = 15672
+#             }
+
+#             initial_delay_seconds = 60
+#             period_seconds        = 30
+#           }
+#         }
+#       }
+#     }
+#   }
+# }
+
+# resource "kubernetes_service" "main_loadbalancer_rabbitmq_01" {
+#   metadata {
+#     name = "rabbitmq-load-balancer-01"
+#   }
+#   spec {
+#     selector = {
+#       app = kubernetes_deployment.main_deployment_rabbitmq.metadata.0.labels.app
+#     }
+
+#     port {
+#       port        = 5672
+#       target_port = 5672
+#       node_port   = 31006
+#     }
+
+#     type = "LoadBalancer"
+#   }
+# }
+
+# resource "kubernetes_service" "main_loadbalancer_rabbitmq_02" {
+#   metadata {
+#     name = "rabbitmq-load-balancer-02"
+#   }
+#   spec {
+#     selector = {
+#       app = kubernetes_deployment.main_deployment_rabbitmq.metadata.0.labels.app
+#     }
+
+#     port {
+#       port        = 80
+#       target_port = 15672
+#       node_port   = 31007
+#     }
+
+#     type = "LoadBalancer"
+#   }
+# }
+
+# resource "kubernetes_config_map" "main_config_map_01" {
+#   metadata {
+#     name = "main-config-map-01"
+#   }
+
+#   data = {
+#     aspnetcore_environment                 = "Development"
+#     connection_string_company_course       = "Data Source=tcp:${var.mssql_server}.database.windows.net,1433;Initial Catalog=CompanyMicroservicesCourses;User Id=${var.mssql_server_admin}@${var.mssql_server};Password=${var.mssql_server_password}"
+#     connection_string_company_department   = "Data Source=tcp:${var.mssql_server}.database.windows.net,1433;Initial Catalog=CompanyMicroservicesDepartments;User Id=${var.mssql_server_admin}@${var.mssql_server};Password=${var.mssql_server_password}"
+#     connection_string_company_employee     = "Data Source=tcp:${var.mssql_server}.database.windows.net,1433;Initial Catalog=CompanyMicroservicesEmployees;User Id=${var.mssql_server_admin}@${var.mssql_server};Password=${var.mssql_server_password}"
+#     connection_string_company_notification = "Data Source=tcp:${var.mssql_server}.database.windows.net,1433;Initial Catalog=CompanyMicroservicesNotifications;User Id=${var.mssql_server_admin}@${var.mssql_server};Password=${var.mssql_server_password}"
+#     rabbitmq_server                        = kubernetes_service.main_loadbalancer_rabbitmq_01.status.0.load_balancer.0.ingress.0.ip
+#     rabbitmq_username                      = var.rabbitmq_username
+#     rabbitmq_password                      = var.rabbitmq_password
+#   }
+# }
+
 # resource "kubernetes_deployment" "main_deployment_company_course" {
 #   metadata {
 #     name = "company-course-deployment"
@@ -52,12 +171,27 @@
 
 #           env {
 #             name  = "ASPNETCORE_ENVIRONMENT"
-#             value = "Development"
+#             value = kubernetes_config_map.main_config_map_01.data.aspnetcore_environment
 #           }
 
 #           env {
 #             name  = "ConnectionStrings__MicroserviceDbString"
-#             value = "Data Source=tcp:${var.mssql_server}.database.windows.net,1433;Initial Catalog=CompanyMicroservicesCourses;User Id=${var.mssql_server_admin}@${var.mssql_server};Password=${var.mssql_server_password}"
+#             value = kubernetes_config_map.main_config_map_01.data.connection_string_company_course
+#           }
+
+#           env {
+#             name  = "RabbitMQConfiguration__RabbitMQServer"
+#             value = kubernetes_config_map.main_config_map_01.data.rabbitmq_server
+#           }
+
+#           env {
+#             name  = "RabbitMQConfiguration__RabbitMQUsername"
+#             value = kubernetes_config_map.main_config_map_01.data.rabbitmq_username
+#           }
+
+#           env {
+#             name  = "RabbitMQConfiguration__RabbitMQPassword"
+#             value = kubernetes_config_map.main_config_map_01.data.rabbitmq_password
 #           }
 
 #           resources {
@@ -146,12 +280,27 @@
 
 #           env {
 #             name  = "ASPNETCORE_ENVIRONMENT"
-#             value = "Development"
+#             value = kubernetes_config_map.main_config_map_01.data.aspnetcore_environment
 #           }
 
 #           env {
 #             name  = "ConnectionStrings__MicroserviceDbString"
-#             value = "Data Source=tcp:${var.mssql_server}.database.windows.net,1433;Initial Catalog=CompanyMicroservicesDepartments;User Id=${var.mssql_server_admin}@${var.mssql_server};Password=${var.mssql_server_password}"
+#             value = kubernetes_config_map.main_config_map_01.data.connection_string_company_department
+#           }
+
+#           env {
+#             name  = "RabbitMQConfiguration__RabbitMQServer"
+#             value = kubernetes_config_map.main_config_map_01.data.rabbitmq_server
+#           }
+
+#           env {
+#             name  = "RabbitMQConfiguration__RabbitMQUsername"
+#             value = kubernetes_config_map.main_config_map_01.data.rabbitmq_username
+#           }
+
+#           env {
+#             name  = "RabbitMQConfiguration__RabbitMQPassword"
+#             value = kubernetes_config_map.main_config_map_01.data.rabbitmq_password
 #           }
 
 #           resources {
@@ -239,12 +388,27 @@
 
 #           env {
 #             name  = "ASPNETCORE_ENVIRONMENT"
-#             value = "Development"
+#             value = kubernetes_config_map.main_config_map_01.data.aspnetcore_environment
 #           }
 
 #           env {
 #             name  = "ConnectionStrings__MicroserviceDbString"
-#             value = "Data Source=tcp:${var.mssql_server}.database.windows.net,1433;Initial Catalog=CompanyMicroservicesEmployees;User Id=${var.mssql_server_admin}@${var.mssql_server};Password=${var.mssql_server_password}"
+#             value = kubernetes_config_map.main_config_map_01.data.connection_string_company_employee
+#           }
+
+#           env {
+#             name  = "RabbitMQConfiguration__RabbitMQServer"
+#             value = kubernetes_config_map.main_config_map_01.data.rabbitmq_server
+#           }
+
+#           env {
+#             name  = "RabbitMQConfiguration__RabbitMQUsername"
+#             value = kubernetes_config_map.main_config_map_01.data.rabbitmq_username
+#           }
+
+#           env {
+#             name  = "RabbitMQConfiguration__RabbitMQPassword"
+#             value = kubernetes_config_map.main_config_map_01.data.rabbitmq_password
 #           }
 
 #           resources {
@@ -334,12 +498,27 @@
 
 #           env {
 #             name  = "ASPNETCORE_ENVIRONMENT"
-#             value = "Development"
+#             value = kubernetes_config_map.main_config_map_01.data.aspnetcore_environment
 #           }
 
 #           env {
 #             name  = "ConnectionStrings__MicroserviceDbString"
-#             value = "Data Source=tcp:${var.mssql_server}.database.windows.net,1433;Initial Catalog=CompanyMicroservicesNotifications;User Id=${var.mssql_server_admin}@${var.mssql_server};Password=${var.mssql_server_password}"
+#             value = kubernetes_config_map.main_config_map_01.data.connection_string_company_notification
+#           }
+
+#           env {
+#             name  = "RabbitMQConfiguration__RabbitMQServer"
+#             value = kubernetes_config_map.main_config_map_01.data.rabbitmq_server
+#           }
+
+#           env {
+#             name  = "RabbitMQConfiguration__RabbitMQUsername"
+#             value = kubernetes_config_map.main_config_map_01.data.rabbitmq_username
+#           }
+
+#           env {
+#             name  = "RabbitMQConfiguration__RabbitMQPassword"
+#             value = kubernetes_config_map.main_config_map_01.data.rabbitmq_password
 #           }
 
 #           resources {
@@ -388,6 +567,20 @@
 #   }
 # }
 
+# resource "kubernetes_config_map" "main_config_map_02" {
+#   metadata {
+#     name = "main-config-map-02"
+#   }
+
+#   data = {
+#     react_app_company_course       = "http://${kubernetes_service.main_loadbalancer_company_course.status.0.load_balancer.0.ingress.0.ip}/swagger/index.html"
+#     react_app_company_department   = "http://${kubernetes_service.main_loadbalancer_company_department.status.0.load_balancer.0.ingress.0.ip}/swagger/index.html"
+#     react_app_company_employee     = "http://${kubernetes_service.main_loadbalancer_company_employee.status.0.load_balancer.0.ingress.0.ip}/swagger/index.html"
+#     react_app_company_notification = "http://${kubernetes_service.main_loadbalancer_company_notification.status.0.load_balancer.0.ingress.0.ip}/swagger/index.html"
+#     react_app_rabbitmq             = "http://${kubernetes_service.main_loadbalancer_rabbitmq_02.status.0.load_balancer.0.ingress.0.ip}"
+#   }
+# }
+
 # resource "kubernetes_deployment" "main_deployment_microservices_catalogue" {
 #   metadata {
 #     name = "microservices-catalogue-deployment"
@@ -418,37 +611,42 @@
 #           name  = "microservices-catalogue"
 
 #           port {
-#             container_port = 80
+#             container_port = 3000
 #           }
 
 #           env {
 #             name  = "REACT_APP_COMPANY_COURSE"
-#             value = "http://${kubernetes_service.main_loadbalancer_company_course.status.0.load_balancer.0.ingress.0.ip}/swagger/index.html"
+#             value = kubernetes_config_map.main_config_map_02.data.react_app_company_course
 #           }
 
 #           env {
 #             name  = "REACT_APP_COMPANY_DEPARTMENT"
-#             value = "http://${kubernetes_service.main_loadbalancer_company_department.status.0.load_balancer.0.ingress.0.ip}/swagger/index.html"
+#             value = kubernetes_config_map.main_config_map_02.data.react_app_company_department
 #           }
 
 #           env {
 #             name  = "REACT_APP_COMPANY_EMPLOYEE"
-#             value = "http://${kubernetes_service.main_loadbalancer_company_employee.status.0.load_balancer.0.ingress.0.ip}/swagger/index.html"
+#             value = kubernetes_config_map.main_config_map_02.data.react_app_company_employee
 #           }
 
 #           env {
 #             name  = "REACT_APP_COMPANY_NOTIFICATION"
-#             value = "http://${kubernetes_service.main_loadbalancer_company_notification.status.0.load_balancer.0.ingress.0.ip}/swagger/index.html"
+#             value = kubernetes_config_map.main_config_map_02.data.react_app_company_notification
+#           }
+
+#           env {
+#             name  = "REACT_APP_RABBITMQ"
+#             value = kubernetes_config_map.main_config_map_02.data.react_app_rabbitmq
 #           }
 
 #           resources {
 #             requests = {
-#               cpu    = "250m"
-#               memory = "64Mi"
+#               cpu    = "1000m"
+#               memory = "256Mi"
 #             }
 
 #             limits = {
-#               cpu    = "500m"
+#               cpu    = "2000m"
 #               memory = "512Mi"
 #             }
 #           }
@@ -456,11 +654,11 @@
 #           liveness_probe {
 #             http_get {
 #               path = "/"
-#               port = 80
+#               port = 3000
 #             }
 
-#             initial_delay_seconds = 180
-#             period_seconds        = 30
+#             initial_delay_seconds = 120
+#             period_seconds        = 60
 #           }
 #         }
 #       }

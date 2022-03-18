@@ -1,0 +1,22 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: company-notification-deployment
+  labels:
+    app: main_deployment_company_notification
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: main_deployment_company_notification
+  template:
+    metadata:
+      labels:
+        app: main_deployment_company_notification
+    spec:
+      containers:
+        - name: company-notification
+          image: devcontainerregistryre02.azurecr.io/company-notification
+          ports:
+          - containerPort: 80
+          - containerPort: 433                                                             
