@@ -1,0 +1,10 @@
+name: Azure Deploy to Kubernetes from Registry
+
+on:
+  workflow_dispatch:
+
+jobs:
+    build_and_push_to_registry:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: ./.github/workflows/monorepo-microservices-registry      
