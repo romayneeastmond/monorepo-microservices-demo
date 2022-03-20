@@ -232,7 +232,7 @@ resource "azurerm_app_service" "main_company_notification" {
 }
 
 resource "azurerm_app_service" "main_microservices_catalogue" {
-  name                = "${var.prefix}-nodejs-microservices-catalogue"
+  name                = "${var.prefix}-nodejs-microservices-catalogue-re01"
   resource_group_name = azurerm_resource_group.main_resource_group.name
   location            = azurerm_resource_group.main_resource_group.location
   app_service_plan_id = azurerm_app_service_plan.main_app_service_plan_02.id
