@@ -52,6 +52,7 @@ jobs:
 
     k8s_environment:
       runs-on: ubuntu-latest
+      needs: [build_and_push_to_registry]
       steps:
         - name: Login to Azure Kubernetes
           uses: azure/aks-set-context@v1
@@ -60,8 +61,17 @@ jobs:
             cluster-name: ${{ env.CLUSTER_NAME }}
             resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
 
+    create_k8s_namespace:
+      runs-on: ubuntu-latest
+      needs: [k8s_environment]
+      steps:
+      - name: Create Kubernetes Namespace if not exist
+        run: |
+          kubectl create namespace ${{ env.NAMESPACE }} --dry-run=client -o json | kubectl apply -f -
+
     create_image_secret:
       runs-on: ubuntu-latest
+      needs: [k8s_environment, create_k8s_namespace]
       steps:
         - name: Create imagePullSecret
           uses: azure/k8s-create-secret@v1
@@ -75,6 +85,7 @@ jobs:
 
     deploy_microservice_course:
       runs-on: ubuntu-latest
+      needs: [create_image_secret]
       steps:
         - name: Deploy Company.Course to Kubernetes cluster
           uses: azure/k8s-deploy@v1
@@ -89,6 +100,7 @@ jobs:
 
     deploy_microservice_department:
       runs-on: ubuntu-latest
+      needs: [create_image_secret]
       steps:
         - name: Deploy Company.Department to Kubernetes cluster
           uses: azure/k8s-deploy@v1
@@ -103,6 +115,7 @@ jobs:
 
     deploy_microservice_employee:
       runs-on: ubuntu-latest
+      needs: [create_image_secret]
       steps:
         - name: Deploy Company.Employee to Kubernetes cluster
           uses: azure/k8s-deploy@v1
@@ -117,6 +130,7 @@ jobs:
 
     deploy_microservice_notification:
       runs-on: ubuntu-latest
+      needs: [create_image_secret]
       steps:
         - name: Deploy Company.Notification to Kubernetes cluster
           uses: azure/k8s-deploy@v1
@@ -131,6 +145,7 @@ jobs:
 
     deploy_catalogue_react:
       runs-on: ubuntu-latest
+      needs: [create_image_secret]
       steps:
         - name: Deploy Microservices.Catalogue to Kubernetes cluster
           uses: azure/k8s-deploy@v1
