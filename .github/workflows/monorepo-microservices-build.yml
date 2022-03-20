@@ -1,4 +1,4 @@
-name: Build Microservices and Catalogue
+name: Build and Publish Microservices to Web Apps
 
 on:
   push:
@@ -7,16 +7,16 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_WEBAPP_NAME_1: dev-aspnet-company-course-re01
-  AZURE_WEBAPP_NAME_2: dev-aspnet-company-department-re01
-  AZURE_WEBAPP_NAME_3: dev-aspnet-company-employee-re01
-  AZURE_WEBAPP_NAME_4: dev-aspnet-company-notification-re01
-  AZURE_WEBAPP_NAME_5: dev-aspnet-microservices-catalogue-re01
+  AZURE_WEBAPP_NAME_1: "dev-aspnet-company-course-re01"
+  AZURE_WEBAPP_NAME_2: "dev-aspnet-company-department-re01"
+  AZURE_WEBAPP_NAME_3: "dev-aspnet-company-employee-re01"
+  AZURE_WEBAPP_NAME_4: "dev-aspnet-company-notification-re01"
+  AZURE_WEBAPP_NAME_5: "dev-aspnet-microservices-catalogue-re01"
   AZURE_WEBAPP_PACKAGE_PATH: "."
   NODE_VERSION: "14.x"
 
 jobs:
-  build_microservice_courses:
+  build_microservice_course:
     runs-on: ubuntu-latest
     defaults:
           run:
@@ -46,7 +46,7 @@ jobs:
             name: dotnetframework-webapp-1
             path: ./Company.Course/dotnetframework-webapp 
       
-  build_microservice_departments:
+  build_microservice_department:
     runs-on: ubuntu-latest
     defaults:
           run:
@@ -76,7 +76,7 @@ jobs:
             name: dotnetframework-webapp-2
             path: ./Company.Department/dotnetframework-webapp      
       
-  build_microservice_employees:
+  build_microservice_employee:
     runs-on: ubuntu-latest
     defaults:
           run:
@@ -182,7 +182,7 @@ jobs:
           npx standard-version
           git push --follow-tags origin HEAD:main 
 
-  deploy_company_course:
+  deploy_microservice_course:
     runs-on: ubuntu-latest
     needs: [build_catalogue_react, update_packages_version]
 
@@ -200,7 +200,7 @@ jobs:
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_COMPANY_COURSE }}
           package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
-  deploy_company_department:
+  deploy_microservice_department:
     runs-on: ubuntu-latest
     needs: [build_catalogue_react, update_packages_version]
 
@@ -218,7 +218,7 @@ jobs:
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_COMPANY_DEPARTMENT }}
           package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
-  deploy_company_employee:
+  deploy_microservice_employee:
     runs-on: ubuntu-latest
     needs: [build_catalogue_react, update_packages_version]
 
@@ -236,7 +236,7 @@ jobs:
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_COMPANY_EMPLOYEE }}
           package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
-  deploy_company_notification:
+  deploy_microservice_notification:
     runs-on: ubuntu-latest
     needs: [build_catalogue_react, update_packages_version]
 
@@ -254,7 +254,7 @@ jobs:
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_COMPANY_NOTIFICATION }}
           package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}                    
 
-  deploy_microservices_catalogue:
+  deploy_catalogue_react:
     runs-on: ubuntu-latest
     needs: [build_catalogue_react, update_packages_version]
 

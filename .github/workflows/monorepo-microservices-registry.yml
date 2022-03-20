@@ -3,6 +3,10 @@ name: Azure Push Images to Registry
 on:
   workflow_dispatch:
 
+env:
+  CONTAINER_REGISTRY: "devcontainerregistryre02.azurecr.io"
+  TAG: "ci-1.0.1" 
+
 jobs:
     build_and_push_to_registry:
         runs-on: ubuntu-latest
@@ -13,31 +17,31 @@ jobs:
         - name: Login via Azure CLI
           uses: Azure/docker-login@v1
           with:
-              login-server: devcontainerregistryre02.azurecr.io
+              login-server:  ${{ env.CONTAINER_REGISTRY }}
               username: ${{ SECRETS.REGISTRY_USERNAME }}
               password: ${{ SECRETS.REGISTRY_PASSWORD }}
 
         - name: Push Company.Course to Registry
           run: |
-            docker build -f ./Company.Course/Company.Course.Api/Dockerfile -t devcontainerregistryre02.azurecr.io/company-course:ci-1.0.1 .
-            docker push devcontainerregistryre02.azurecr.io/company-course:ci-1.0.1
+            docker build -f ./Company.Course/Company.Course.Api/Dockerfile -t ${{ env.CONTAINER_REGISTRY }}/company-course:${{ env.TAG }} .
+            docker push ${{ env.CONTAINER_REGISTRY }}/company-course:${{ env.TAG }}
             
         - name: Push Company.Department to Registry
           run: |
-            docker build -f ./Company.Department/Company.Department.Api/Dockerfile -t devcontainerregistryre02.azurecr.io/company-department:ci-1.0.1 .
-            docker push devcontainerregistryre02.azurecr.io/company-department:ci-1.0.1
+            docker build -f ./Company.Department/Company.Department.Api/Dockerfile -t ${{ env.CONTAINER_REGISTRY }}/company-department:${{ env.TAG }} .
+            docker push ${{ env.CONTAINER_REGISTRY }}/company-department:${{ env.TAG }}
             
         - name: Push Company.Employee to Registry
           run: |
-            docker build -f ./Company.Employee/Company.Employee.Api/Dockerfile -t devcontainerregistryre02.azurecr.io/company-employee:ci-1.0.1 .
-            docker push devcontainerregistryre02.azurecr.io/company-employee:ci-1.0.1
+            docker build -f ./Company.Employee/Company.Employee.Api/Dockerfile -t ${{ env.CONTAINER_REGISTRY }}/company-employee:${{ env.TAG }} .
+            docker push ${{ env.CONTAINER_REGISTRY }}/company-employee:${{ env.TAG }}
 
         - name: Push Company.Notification to Registry
           run: |
-            docker build -f ./Company.Notification/Company.Notification.Api/Dockerfile -t devcontainerregistryre02.azurecr.io/company-notification:ci-1.0.1 .
-            docker push devcontainerregistryre02.azurecr.io/company-notification:ci-1.0.1
+            docker build -f ./Company.Notification/Company.Notification.Api/Dockerfile -t ${{ env.CONTAINER_REGISTRY }}/company-notification:${{ env.TAG }} .
+            docker push ${{ env.CONTAINER_REGISTRY }}/company-notification:${{ env.TAG }}
 
         - name: Push Microservices.Catalogue to Registry
           run: |
-            docker build -f ./Microservices.Catalogue/Dockerfile -t devcontainerregistryre02.azurecr.io/microservices-catalogue:ci-1.0.1 .
-            docker push devcontainerregistryre02.azurecr.io/microservices-catalogue:ci-1.0.1            
+            docker build -f ./Microservices.Catalogue/Dockerfile -t ${{ env.CONTAINER_REGISTRY }}/microservices-catalogue:${{ env.TAG }} .
+            docker push ${{ env.CONTAINER_REGISTRY }}/microservices-catalogue:${{ env.TAG }}          
