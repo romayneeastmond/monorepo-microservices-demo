@@ -1,0 +1,144 @@
+name: Azure Deploy to Kubernetes from Registry
+
+on:
+  workflow_dispatch:
+
+env:
+  CLUSTER_NAME: "dev-kubernetes-cluster-re02"
+  CLUSTER_RESOURCE_GROUP: "dev-kubernetes-cluster-re02-rg"
+  CONTAINER_REGISTRY: "devcontainerregistryre02.azurecr.io"
+  IMAGE_PULL_SECRET: "devcontainerregistryre022029812b-auth"
+  K8S_NAMESPACE: "default"
+  TAG: "latest" 
+
+jobs:
+    build_and_push_to_registry:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Checkout GitHub Action
+          uses: actions/checkout@v2
+
+        - name: Login via Azure CLI
+          uses: Azure/docker-login@v1
+          with:
+              login-server: ${{ env.CONTAINER_REGISTRY }}
+              username: ${{ SECRETS.REGISTRY_USERNAME }}
+              password: ${{ SECRETS.REGISTRY_PASSWORD }}
+
+        - name: Push Company.Course to Registry
+          run: |
+            docker build -f ./Company.Course/Company.Course.Api/Dockerfile -t ${{ env.CONTAINER_REGISTRY }}/company-course:${{ env.TAG }} .
+            docker push ${{ env.CONTAINER_REGISTRY }}/company-course:${{ env.TAG }}
+            
+        - name: Push Company.Department to Registry
+          run: |
+            docker build -f ./Company.Department/Company.Department.Api/Dockerfile -t ${{ env.CONTAINER_REGISTRY }}/company-department:${{ env.TAG }} .
+            docker push ${{ env.CONTAINER_REGISTRY }}/company-department:${{ env.TAG }}
+            
+        - name: Push Company.Employee to Registry
+          run: |
+            docker build -f ./Company.Employee/Company.Employee.Api/Dockerfile -t ${{ env.CONTAINER_REGISTRY }}/company-employee:${{ env.TAG }} .
+            docker push ${{ env.CONTAINER_REGISTRY }}/company-employee:${{ env.TAG }}
+
+        - name: Push Company.Notification to Registry
+          run: |
+            docker build -f ./Company.Notification/Company.Notification.Api/Dockerfile -t ${{ env.CONTAINER_REGISTRY }}/company-notification:${{ env.TAG }} .
+            docker push ${{ env.CONTAINER_REGISTRY }}/company-notification:${{ env.TAG }}
+
+        - name: Push Microservices.Catalogue to Registry
+          run: |
+            docker build -f ./Microservices.Catalogue/Dockerfile -t ${{ env.CONTAINER_REGISTRY }}/microservices-catalogue:${{ env.TAG }} .
+            docker push ${{ env.CONTAINER_REGISTRY }}/microservices-catalogue:${{ env.TAG }}
+
+    k8s_environment:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Login to Azure Kubernetes
+          uses: azure/aks-set-context@v1
+          with:
+            creds: '${{ secrets.AZURE_CREDENTIALS }}'
+            cluster-name: ${{ env.CLUSTER_NAME }}
+            resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
+
+    create_image_secret:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Create imagePullSecret
+          uses: azure/k8s-create-secret@v1
+          with:
+            container-registry-url: ${{ env.CONTAINER_REGISTRY }}
+            container-registry-username: ${{ secrets.REGISTRY_USERNAME }}
+            container-registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+            secret-name: ${{ env.IMAGE_PULL_SECRET }}
+            namespace: ${{ env.K8S_NAMESPACE }}
+            arguments: --force true
+
+    deploy_microservice_course:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Deploy Company.Course to Kubernetes cluster
+          uses: azure/k8s-deploy@v1
+          with:
+            manifests: |
+              ${{ github.workspace }}/.azuredevops/pipelines/manifests/deployment-company-course.yml
+            images: |
+              ${{ env.CONTAINER_REGISTRY }}/company-course:${{ env.TAG }}
+            imagepullsecrets: |
+              ${{ env.IMAGE_PULL_SECRET }}
+            namespace: ${{ env.K8S_NAMESPACE }}         
+
+    deploy_microservice_department:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Deploy Company.Department to Kubernetes cluster
+          uses: azure/k8s-deploy@v1
+          with:
+            manifests: |
+              ${{ github.workspace }}/.azuredevops/pipelines/manifests/deployment-company-department.yml
+            images: |
+              ${{ env.CONTAINER_REGISTRY }}/company-department:${{ env.TAG }}
+            imagepullsecrets: |
+              ${{ env.IMAGE_PULL_SECRET }}
+            namespace: ${{ env.K8S_NAMESPACE }}
+
+    deploy_microservice_employee:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Deploy Company.Employee to Kubernetes cluster
+          uses: azure/k8s-deploy@v1
+          with:
+            manifests: |
+              ${{ github.workspace }}/.azuredevops/pipelines/manifests/deployment-company-employee.yml
+            images: |
+              ${{ env.CONTAINER_REGISTRY }}/company-employee:${{ env.TAG }}
+            imagepullsecrets: |
+              ${{ env.IMAGE_PULL_SECRET }}
+            namespace: ${{ env.K8S_NAMESPACE }}
+
+    deploy_microservice_notification:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Deploy Company.Notification to Kubernetes cluster
+          uses: azure/k8s-deploy@v1
+          with:
+            manifests: |
+              ${{ github.workspace }}/.azuredevops/pipelines/manifests/deployment-company-notification.yml
+            images: |
+              ${{ env.CONTAINER_REGISTRY }}/company-notification:${{ env.TAG }}
+            imagepullsecrets: |
+              ${{ env.IMAGE_PULL_SECRET }}
+            namespace: ${{ env.K8S_NAMESPACE }}
+
+    deploy_catalogue_react:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Deploy Microservices.Catalogue to Kubernetes cluster
+          uses: azure/k8s-deploy@v1
+          with:
+            manifests: |
+              ${{ github.workspace }}/.azuredevops/pipelines/manifests/deployment-microservices-catalogue.yml
+            images: |
+              ${{ env.CONTAINER_REGISTRY }}/microservices-catalogue:${{ env.TAG }}
+            imagepullsecrets: |
+              ${{ env.IMAGE_PULL_SECRET }}
+            namespace: ${{ env.K8S_NAMESPACE }}                                                
