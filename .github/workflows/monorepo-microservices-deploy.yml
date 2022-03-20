@@ -63,7 +63,7 @@ jobs:
 
     create_image_secret:
       runs-on: ubuntu-latest
-      needs: [k8s_environment, create_k8s_namespace]
+      needs: [k8s_environment]
       steps:
         - name: Create imagePullSecret
           uses: azure/k8s-create-secret@v1
