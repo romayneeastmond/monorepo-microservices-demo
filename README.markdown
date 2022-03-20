@@ -20,7 +20,7 @@ A sandbox environment for experimenting with CI/CD inside a monorepo. Each proje
 - [x] Publish Docker containers to Azure Container Registry (ACR)
 - [x] Publish Docker containers to Azure Container Registry (ACR) with AzureDevOps
 - [x] Optionally deploy containers to Azure Kubernetes Services (AKS) with AzureDevOps
-- [ ] Optionally deploy containers to Azure Kubernetes Services (AKS)
+- [x] Optionally deploy containers to Azure Kubernetes Services (AKS)
 - [ ] Create Apollo GraphQL
 - [ ] Develop Unit Testing strategies
 
