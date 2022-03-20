@@ -232,7 +232,7 @@ resource "azurerm_app_service" "main_company_notification" {
 }
 
 resource "azurerm_app_service" "main_microservices_catalogue" {
-  name                = "${var.prefix}-aspnet-microservices-catalogue-re01"
+  name                = "${var.prefix}-nodejs-microservices-catalogue"
   resource_group_name = azurerm_resource_group.main_resource_group.name
   location            = azurerm_resource_group.main_resource_group.location
   app_service_plan_id = azurerm_app_service_plan.main_app_service_plan_02.id
@@ -240,14 +240,6 @@ resource "azurerm_app_service" "main_microservices_catalogue" {
   site_config {
     linux_fx_version = "NODE|14-lts"
     app_command_line = "pm2 serve /home/site/wwwroot --no-daemon --spa"
-  }
-
-  app_settings = {
-    "SCM_DO_BUILD_DURING_DEPLOYMENT" = false
-    "REACT_APP_COMPANY_COURSE"       = "https://${azurerm_app_service.main_company_course.name}.azurewebsites.net/swagger/index.html"
-    "REACT_APP_COMPANY_DEPARTMENT"   = "https://${azurerm_app_service.main_company_department.name}.azurewebsites.net/swagger/index.html"
-    "REACT_APP_COMPANY_EMPLOYEE"     = "https://${azurerm_app_service.main_company_employee.name}.azurewebsites.net/swagger/index.html"
-    "REACT_APP_COMPANY_NOTIFICATION" = "https://${azurerm_app_service.main_company_notification.name}.azurewebsites.net/swagger/index.html"
   }
 
   tags = {

@@ -11,7 +11,7 @@ env:
   AZURE_WEBAPP_NAME_2: "dev-aspnet-company-department-re01"
   AZURE_WEBAPP_NAME_3: "dev-aspnet-company-employee-re01"
   AZURE_WEBAPP_NAME_4: "dev-aspnet-company-notification-re01"
-  AZURE_WEBAPP_NAME_5: "dev-aspnet-microservices-catalogue-re01"
+  AZURE_WEBAPP_NAME_5: "dev-nodejs-microservices-catalogue"
   AZURE_WEBAPP_PACKAGE_PATH: "."
   NODE_VERSION: "14.x"
 
@@ -264,7 +264,7 @@ jobs:
         with:
           name: node-app-1
 
-      - name: "Deploy to dev-aspnet-microservices-catalogue-re01"
+      - name: "Deploy to dev-nodejs-microservices-catalogue"
         id: deploy-to-webapp-5
         uses: azure/webapps-deploy@v2
         with:
