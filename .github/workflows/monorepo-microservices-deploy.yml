@@ -69,7 +69,7 @@ jobs:
           uses: azure/k8s-deploy@v1
           with:
             manifests: |
-              ${{ github.workspace }}/.azuredevops/pipelines/manifests/deployment-company-course.yml
+              ./.azuredevops/pipelines/manifests/deployment-company-course.yml
             images: |
               ${{ env.CONTAINER_REGISTRY }}/company-course:${{ env.TAG }}
             imagepullsecrets: |
@@ -84,7 +84,7 @@ jobs:
           uses: azure/k8s-deploy@v1
           with:
             manifests: |
-              ${{ github.workspace }}/.azuredevops/pipelines/manifests/deployment-company-department.yml
+              ./.azuredevops/pipelines/manifests/deployment-company-department.yml
             images: |
               ${{ env.CONTAINER_REGISTRY }}/company-department:${{ env.TAG }}
             imagepullsecrets: |
@@ -99,7 +99,7 @@ jobs:
           uses: azure/k8s-deploy@v1
           with:
             manifests: |
-              ${{ github.workspace }}/.azuredevops/pipelines/manifests/deployment-company-employee.yml
+              ./.azuredevops/pipelines/manifests/deployment-company-employee.yml
             images: |
               ${{ env.CONTAINER_REGISTRY }}/company-employee:${{ env.TAG }}
             imagepullsecrets: |
@@ -114,7 +114,7 @@ jobs:
           uses: azure/k8s-deploy@v1
           with:
             manifests: |
-              ${{ github.workspace }}/.azuredevops/pipelines/manifests/deployment-company-notification.yml
+              ./.azuredevops/pipelines/manifests/deployment-company-notification.yml
             images: |
               ${{ env.CONTAINER_REGISTRY }}/company-notification:${{ env.TAG }}
             imagepullsecrets: |
@@ -129,7 +129,7 @@ jobs:
           uses: azure/k8s-deploy@v1
           with:
             manifests: |
-              ${{ github.workspace }}/.azuredevops/pipelines/manifests/deployment-microservices-catalogue.yml
+              ./.azuredevops/pipelines/manifests/deployment-microservices-catalogue.yml
             images: |
               ${{ env.CONTAINER_REGISTRY }}/microservices-catalogue:${{ env.TAG }}
             imagepullsecrets: |
