@@ -50,6 +50,11 @@ jobs:
             docker build -f ./Microservices.Catalogue/Dockerfile -t ${{ env.CONTAINER_REGISTRY }}/microservices-catalogue:${{ env.TAG }} .
             docker push ${{ env.CONTAINER_REGISTRY }}/microservices-catalogue:${{ env.TAG }}
 
+        - name: Push Microservices.GraphQL to Registry
+          run: |
+            docker build -f ./Microservices..GraphQL/Dockerfile -t ${{ env.CONTAINER_REGISTRY }}/microservices-graphql:${{ env.TAG }} .
+            docker push ${{ env.CONTAINER_REGISTRY }}/microservices-graphql:${{ env.TAG }}             
+
     deploy_k8s_microservices:
       runs-on: ubuntu-latest
       needs: [build_and_push_to_registry]
@@ -131,4 +136,15 @@ jobs:
               ${{ env.CONTAINER_REGISTRY }}/microservices-catalogue:${{ env.TAG }}
             imagepullsecrets: |
               ${{ env.IMAGE_PULL_SECRET }}
-            namespace: ${{ env.K8S_NAMESPACE }}                                                
+            namespace: ${{ env.K8S_NAMESPACE }} 
+
+        - name: Deploy Microservices.GraphQL to Kubernetes cluster
+          uses: azure/k8s-deploy@v1
+          with:
+            manifests: |
+              ${{ github.workspace }}/.azuredevops/pipelines/manifests/deployment-microservices-graphql.yml
+            images: |
+              ${{ env.CONTAINER_REGISTRY }}/microservices-graphql:${{ env.TAG }}
+            imagepullsecrets: |
+              ${{ env.IMAGE_PULL_SECRET }}
+            namespace: ${{ env.K8S_NAMESPACE }}                                                           

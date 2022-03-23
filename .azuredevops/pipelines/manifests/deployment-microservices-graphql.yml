@@ -1,0 +1,21 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: microservices-graphql-deployment
+  labels:
+    app: main_deployment_microservices_graphql
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: main_deployment_microservices_graphql
+  template:
+    metadata:
+      labels:
+        app: main_deployment_microservices_graphql
+    spec:
+      containers:
+        - name: microservices-graphql
+          image: devcontainerregistryre02.azurecr.io/microservices-graphql
+          ports:
+          - containerPort: 4000                                                            

@@ -1,0 +1,20 @@
+type Query {
+  getNotificationLog(id: String!): NotificationLog
+}
+
+type Mutation {
+  addNotificationLog(notificationLog: NotificationLogUpsert!): NotificationLog
+}
+
+type NotificationLog {
+  id: ID!
+  recipient: String
+  message: String
+  created: String
+}
+
+input NotificationLogUpsert {
+  recipient: String!
+  message: String!
+  created: String!
+}

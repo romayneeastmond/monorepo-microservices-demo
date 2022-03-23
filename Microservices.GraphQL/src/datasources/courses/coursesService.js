@@ -1,16 +1,16 @@
 const { RESTDataSource } = require('apollo-datasource-rest');
 
-class EmployeesService extends RESTDataSource {
+class CoursesService extends RESTDataSource {
     constructor(microserviceUrl) {
         super();
 
         this.baseURL = microserviceUrl.trim().length === 0
-            ? 'http://localhost:5003/'
+            ? 'http://localhost:5001/'
             : microserviceUrl;
     };
 
-    addEmployee = async (employee) => {
-        const data = await this.post('employees/insert', employee)
+    addCourse = async (course) => {
+        const data = await this.post('courses/insert', course)
             .then((result) => {
                 return result;
             }).catch((error) => {
@@ -24,8 +24,8 @@ class EmployeesService extends RESTDataSource {
         return this.getData(data);
     };
 
-    deleteEmployee = async (id) => {
-        const data = await this.delete(`employees/delete/?id=${encodeURIComponent(id)}`)
+    deleteCourse = async (id) => {
+        const data = await this.delete(`courses/delete/?id=${encodeURIComponent(id)}`)
             .then((result) => {
                 return result;
             }).catch((error) => {
@@ -42,16 +42,13 @@ class EmployeesService extends RESTDataSource {
     getData = (data) => {
         return {
             id: data.id,
-            departmentId: data.departmentId,
-            firstName: data.firstName,
-            lastName: data.lastName,
-            emailAddress: data.emailAddress,
-            isActive: data.isActive
+            name: data.name,
+            description: data.description
         }
     };
 
-    getEmployee = async (id) => {
-        const data = await this.get(`employee/${encodeURIComponent(id)}`)
+    getCourse = async (id) => {
+        const data = await this.get(`course/${encodeURIComponent(id)}`)
             .then((result) => {
                 return result;
             }).catch((error) => {
@@ -65,8 +62,8 @@ class EmployeesService extends RESTDataSource {
         return this.getData(data);
     };
 
-    getEmployees = async () => {
-        const data = await this.get('employees')
+    getCourses = async () => {
+        const data = await this.get('courses')
             .then((result) => {
                 return result;
             }).catch((error) => {
@@ -77,17 +74,17 @@ class EmployeesService extends RESTDataSource {
             return null;
         }
 
-        let employees = [];
+        let courses = [];
 
-        data.forEach((employee) => {
-            employees.push(this.getData(employee))
+        data.forEach((course) => {
+            courses.push(this.getData(course))
         });
 
-        return employees;
+        return courses;
     };
 
-    updateEmployee = async (id, employee) => {
-        const data = await this.put(`employees/update?id=${encodeURIComponent(id)}`, employee)
+    updateCourse = async (id, course) => {
+        const data = await this.put(`courses/update?id=${encodeURIComponent(id)}`, course)
             .then((result) => {
                 return result;
             }).catch((error) => {
@@ -98,8 +95,8 @@ class EmployeesService extends RESTDataSource {
             return null;
         }
 
-        return this.getData({ id, ...employee });
+        return this.getData({ id, ...course });
     };
 }
 
-module.exports = EmployeesService;
+module.exports = CoursesService;

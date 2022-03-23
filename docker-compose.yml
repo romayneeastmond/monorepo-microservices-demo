@@ -53,6 +53,19 @@ services:
       - sqldata
       - rabbitmq
 
+  microservices-graphql:
+    container_name: microservices-graphql
+    build:
+      context: .
+      dockerfile: Microservices.GraphQL/Dockerfile
+    depends_on:
+      - company-course-api
+      - company-department-api
+      - company-employee-api
+      - company-notification-api
+    ports:
+      - 4100:4000
+
   microservices-catalogue:
     container_name: microservices-catalogue
     build:
@@ -63,5 +76,6 @@ services:
       - company-department-api
       - company-employee-api
       - company-notification-api
+      - microservices-graphql
     ports:
       - 3100:3000

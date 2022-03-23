@@ -44,4 +44,9 @@ jobs:
         - name: Push Microservices.Catalogue to Registry
           run: |
             docker build -f ./Microservices.Catalogue/Dockerfile -t ${{ env.CONTAINER_REGISTRY }}/microservices-catalogue:${{ env.TAG }} .
-            docker push ${{ env.CONTAINER_REGISTRY }}/microservices-catalogue:${{ env.TAG }}          
+            docker push ${{ env.CONTAINER_REGISTRY }}/microservices-catalogue:${{ env.TAG }} 
+
+        - name: Push Microservices.GraphQL to Registry
+          run: |
+            docker build -f ./Microservices..GraphQL/Dockerfile -t ${{ env.CONTAINER_REGISTRY }}/microservices-graphql:${{ env.TAG }} .
+            docker push ${{ env.CONTAINER_REGISTRY }}/microservices-graphql:${{ env.TAG }}          
