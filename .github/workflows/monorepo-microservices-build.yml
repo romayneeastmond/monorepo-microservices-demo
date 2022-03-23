@@ -195,7 +195,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: node-app-2
-          path: ./Microservices.GraphQL/build
+          path: ./Microservices.GraphQL
 
   update_packages_version:
     runs-on: ubuntu-latest
@@ -233,7 +233,7 @@ jobs:
 
   deploy_microservice_department:
     runs-on: ubuntu-latest
-    needs: [build_catalogue_react, update_packages_version]
+    needs: [build_catalogue_react, build_graphql_express, update_packages_version]
 
     steps:
       - name: Download artifact from build job
@@ -251,7 +251,7 @@ jobs:
 
   deploy_microservice_employee:
     runs-on: ubuntu-latest
-    needs: [build_catalogue_react, update_packages_version]
+    needs: [build_catalogue_react, build_graphql_express, update_packages_version]
 
     steps:
       - name: Download artifact from build job
@@ -269,7 +269,7 @@ jobs:
 
   deploy_microservice_notification:
     runs-on: ubuntu-latest
-    needs: [build_catalogue_react, update_packages_version]
+    needs: [build_catalogue_react, build_graphql_express, update_packages_version]
 
     steps:
       - name: Download artifact from build job
@@ -305,7 +305,7 @@ jobs:
 
   deploy_graphql_express:
     runs-on: ubuntu-latest
-    needs: [build_catalogue_react, update_packages_version]
+    needs: [build_graphql_express, update_packages_version]
 
     steps:
       - name: Download artifact from build job
