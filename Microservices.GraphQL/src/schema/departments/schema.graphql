@@ -1,0 +1,21 @@
+type Query {
+  getDepartment(id: String!): Department
+  getDepartments: [Department]
+}
+
+type Mutation {
+  addDepartment(department: DepartmentUpsert!): Department
+  deleteDepartment(id: String!): Boolean
+  updateDepartment(id: String!, department: DepartmentUpsert!): Department
+}
+
+type Department {
+  id: ID!
+  name: String
+  code: String
+}
+
+input DepartmentUpsert {
+  name: String!
+  code: String!
+}

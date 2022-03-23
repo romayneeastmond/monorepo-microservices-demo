@@ -113,6 +113,22 @@ stages:
               tags: |
                 $(tag)
 
+      - job: build_microservices_graphql
+        displayName: Build Microservices.Graphql
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: Docker@2
+            displayName: Build and Push Microservices.Graphql to Registry
+            inputs:
+              command: buildAndPush
+              repository: "microservices-graphql"
+              dockerfile: "**/Microservices.Graphql/Dockerfile"
+              buildContext: .
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(tag)
+
   - stage: Deploy
     displayName: Deploy Stage
     dependsOn: Build
@@ -188,3 +204,14 @@ stages:
                       $(imagePullSecret)
                     containers: |
                       $(containerRegistry)/microservices-catalogue:$(tag)
+
+                - task: KubernetesManifest@0
+                  displayName: Deploy Microservices.GraphQL to Kubernetes cluster
+                  inputs:
+                    action: deploy
+                    manifests: |
+                      $(Pipeline.Workspace)/manifests/deployment-microservices-graphQL.yml
+                    imagePullSecrets: |
+                      $(imagePullSecret)
+                    containers: |
+                      $(containerRegistry)/microservices-graphQL:$(tag)
