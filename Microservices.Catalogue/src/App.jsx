@@ -13,7 +13,8 @@ import MenuIcon from '@mui/icons-material/Menu'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 
-import DirectionsBusFilledIcon from '@mui/icons-material/DirectionsBusFilled';
+import BubbleChartIcon from '@mui/icons-material/BubbleChart'
+import DirectionsBusFilledIcon from '@mui/icons-material/DirectionsBusFilled'
 import GroupIcon from '@mui/icons-material/Group'
 import HomeIcon from '@mui/icons-material/Home'
 import MailOutlineIcon from '@mui/icons-material/MailOutline'
@@ -49,6 +50,8 @@ const App = () => {
                 return <MailOutlineIcon />
             case 'RabbitMQ':
                 return <DirectionsBusFilledIcon />
+            case 'GraphQL':
+                return <BubbleChartIcon />
             default:
                 return <WebAssetIcon />
         }
@@ -76,6 +79,9 @@ const App = () => {
                 break
             case 'RabbitMQ':
                 setCurrentMicroservice(process.env.REACT_APP_RABBITMQ)
+                break;
+            case 'GraphQL':
+                setCurrentMicroservice(process.env.REACT_APP_GRAPHQL)
                 break;
             default:
                 setCurrentMicroservice('')
@@ -105,9 +111,27 @@ const App = () => {
                 ))}
 
                 {
-                    process.env.REACT_APP_RABBITMQ &&
+                    (process.env.REACT_APP_RABBITMQ || process.env.REACT_APP_GRAPHQL) &&
                     <>
                         <Divider />
+                    </>
+                }
+
+                {
+                    process.env.REACT_APP_GRAPHQL &&
+                    <>
+                        <ListItem button onClick={() => loadMicroservice('GraphQL')}>
+                            <ListItemIcon>
+                                <BubbleChartIcon />
+                            </ListItemIcon>
+                            <ListItemText primary='Apollo GraphQL' />
+                        </ListItem>
+                    </>
+                }
+
+                {
+                    process.env.REACT_APP_RABBITMQ &&
+                    <>
                         <ListItem button onClick={() => loadMicroservice('RabbitMQ')}>
                             <ListItemIcon>
                                 <DirectionsBusFilledIcon />

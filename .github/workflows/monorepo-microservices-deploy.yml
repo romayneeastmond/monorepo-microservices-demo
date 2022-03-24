@@ -52,7 +52,7 @@ jobs:
 
         - name: Push Microservices.GraphQL to Registry
           run: |
-            docker build -f ./Microservices..GraphQL/Dockerfile -t ${{ env.CONTAINER_REGISTRY }}/microservices-graphql:${{ env.TAG }} .
+            docker build -f ./Microservices.GraphQL/Dockerfile -t ${{ env.CONTAINER_REGISTRY }}/microservices-graphql:${{ env.TAG }} .
             docker push ${{ env.CONTAINER_REGISTRY }}/microservices-graphql:${{ env.TAG }}             
 
     deploy_k8s_microservices:
