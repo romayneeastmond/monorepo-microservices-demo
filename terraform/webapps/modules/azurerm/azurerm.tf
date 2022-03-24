@@ -242,10 +242,40 @@ resource "azurerm_app_service" "main_microservices_catalogue" {
     app_command_line = "pm2 serve /home/site/wwwroot --no-daemon --spa"
   }
 
+  app_settings = {
+    "SCM_DO_BUILD_DURING_DEPLOYMENT" = false
+  }
+
   tags = {
     "Environment" = var.environment
     "Developer"   = "Romayne Eastmond"
     "Language"    = "Node.js"
     "SPA"         = "React"
+  }
+}
+
+resource "azurerm_app_service" "main_microservices_graphql" {
+  name                = "${var.prefix}-nodejs-microservices-graphql-re01"
+  resource_group_name = azurerm_resource_group.main_resource_group.name
+  location            = azurerm_resource_group.main_resource_group.location
+  app_service_plan_id = azurerm_app_service_plan.main_app_service_plan_02.id
+
+  site_config {
+    linux_fx_version = "NODE|14-lts"
+  }
+
+  app_settings = {
+    "SCM_DO_BUILD_DURING_DEPLOYMENT" = false
+    "COMPANY_COURSE"                 = "https://${azurerm_app_service.main_company_course.name}.azurewebsites.net/"
+    "COMPANY_DEPARTMENT"             = "https://${azurerm_app_service.main_company_department.name}.azurewebsites.net/"
+    "COMPANY_EMPLOYEE"               = "https://${azurerm_app_service.main_company_employee.name}.azurewebsites.net/"
+    "COMPANY_NOTIFICATION"           = "https://${azurerm_app_service.main_company_notification.name}.azurewebsites.net/"
+  }
+
+  tags = {
+    "Environment" = var.environment
+    "Developer"   = "Romayne Eastmond"
+    "Language"    = "Node.js"
+    "SPA"         = "Apollo GraphQL"
   }
 }

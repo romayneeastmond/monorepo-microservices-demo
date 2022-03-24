@@ -371,6 +371,10 @@ resource "kubernetes_config_map" "main_config_map_02" {
   }
 
   data = {
+    company_course                 = "http://${kubernetes_service.main_loadbalancer_company_course.status.0.load_balancer.0.ingress.0.ip}/"
+    company_department             = "http://${kubernetes_service.main_loadbalancer_company_department.status.0.load_balancer.0.ingress.0.ip}/"
+    company_employee               = "http://${kubernetes_service.main_loadbalancer_company_employee.status.0.load_balancer.0.ingress.0.ip}/"
+    company_notification           = "http://${kubernetes_service.main_loadbalancer_company_notification.status.0.load_balancer.0.ingress.0.ip}/"
     react_app_company_course       = "http://${kubernetes_service.main_loadbalancer_company_course.status.0.load_balancer.0.ingress.0.ip}/swagger/index.html"
     react_app_company_department   = "http://${kubernetes_service.main_loadbalancer_company_department.status.0.load_balancer.0.ingress.0.ip}/swagger/index.html"
     react_app_company_employee     = "http://${kubernetes_service.main_loadbalancer_company_employee.status.0.load_balancer.0.ingress.0.ip}/swagger/index.html"
@@ -438,6 +442,72 @@ resource "kubernetes_service" "main_loadbalancer_microservices_catalogue" {
       port        = 80
       target_port = 3000
       node_port   = 31005
+    }
+
+    type = "LoadBalancer"
+  }
+}
+
+
+resource "kubernetes_pod" "main_pod_microservices_graphql" {
+  metadata {
+    name = "microservices-graphql"
+    labels = {
+      app = "main_pod_microservices_graphql"
+    }
+  }
+
+  spec {
+    container {
+      image = "devcontainerregistryre02.azurecr.io/microservices-graphql:ci-1.0.1"
+      name  = "microservices-graphql"
+
+      port {
+        container_port = 4000
+      }
+
+      env {
+        name  = "NODE_TLS_REJECT_UNAUTHORIZED"
+        value = "0"
+      }
+
+      env {
+        name  = "COMPANY_COURSE"
+        value = kubernetes_config_map.main_config_map_02.data.company_course
+      }
+
+      env {
+        name  = "COMPANY_DEPARTMENT"
+        value = kubernetes_config_map.main_config_map_02.data.company_department
+      }
+
+      env {
+        name  = "COMPANY_EMPLOYEE"
+        value = kubernetes_config_map.main_config_map_02.data.company_employee
+      }
+
+      env {
+        name  = "COMPANY_NOTIFICATION"
+        value = kubernetes_config_map.main_config_map_02.data.company_notification
+      }
+    }
+  }
+}
+
+resource "kubernetes_service" "main_loadbalancer_microservices_graphql" {
+  metadata {
+    name = "microservices-graphql-load-balancer"
+  }
+
+  spec {
+    selector = {
+      app = kubernetes_pod.main_pod_microservices_graphql.metadata.0.labels.app
+    }
+
+    port {
+      port        = 80
+      target_port = 4000
+      node_port   = 31006
     }
 
     type = "LoadBalancer"

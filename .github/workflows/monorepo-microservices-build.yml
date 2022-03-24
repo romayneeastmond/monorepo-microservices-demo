@@ -168,7 +168,7 @@ jobs:
           path: ./Microservices.Catalogue/build          
   
   build_graphql_express:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: [build_microservice_course, build_microservice_department, build_microservice_employee, build_microservice_notification]
     defaults:
           run:
