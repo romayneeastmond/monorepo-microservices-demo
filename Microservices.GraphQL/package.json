@@ -16,6 +16,7 @@
     "nodemon": "^2.0.15"
   },
   "scripts": {
+    "start": "nodemon --exec node apollo-server.js",
     "apollo-server": "nodemon apollo-server.js",
     "apollo-playground": "nodemon apollo-playground.js"
   }
