@@ -34,12 +34,11 @@ resource "azurerm_mssql_server" "main_mssql_server" {
   }
 }
 
-resource "azurerm_sql_firewall_rule" "main_mssql_server_firewall_rule" {
-  name                = "${var.prefix}-${var.mssql_server}-firewall-rule-01"
-  resource_group_name = azurerm_resource_group.main_resource_group.name
-  server_name         = azurerm_mssql_server.main_mssql_server.name
-  start_ip_address    = "0.0.0.0"
-  end_ip_address      = "0.0.0.0"
+resource "azurerm_mssql_firewall_rule" "main_mssql_server_firewall_rule" {
+  name             = "${var.prefix}-${var.mssql_server}-firewall-rule-01"
+  server_id        = azurerm_mssql_server.main_mssql_server.id
+  start_ip_address = "0.0.0.0"
+  end_ip_address   = "0.0.0.0"
 }
 
 resource "azurerm_mssql_database" "main_mssql_database_microservices_courses" {
@@ -47,7 +46,6 @@ resource "azurerm_mssql_database" "main_mssql_database_microservices_courses" {
   server_id    = azurerm_mssql_server.main_mssql_server.id
   collation    = "SQL_Latin1_General_CP1_CI_AS"
   license_type = "LicenseIncluded"
-  max_size_gb  = 2
   sku_name     = "Basic"
 
   tags = {
@@ -60,7 +58,6 @@ resource "azurerm_mssql_database" "main_mssql_database_microservices_departments
   server_id    = azurerm_mssql_server.main_mssql_server.id
   collation    = "SQL_Latin1_General_CP1_CI_AS"
   license_type = "LicenseIncluded"
-  max_size_gb  = 2
   sku_name     = "Basic"
 
   tags = {
@@ -73,7 +70,6 @@ resource "azurerm_mssql_database" "main_mssql_database_microservices_employees" 
   server_id    = azurerm_mssql_server.main_mssql_server.id
   collation    = "SQL_Latin1_General_CP1_CI_AS"
   license_type = "LicenseIncluded"
-  max_size_gb  = 2
   sku_name     = "Basic"
 
   tags = {
@@ -86,7 +82,6 @@ resource "azurerm_mssql_database" "main_mssql_database_microservices_notificatio
   server_id    = azurerm_mssql_server.main_mssql_server.id
   collation    = "SQL_Latin1_General_CP1_CI_AS"
   license_type = "LicenseIncluded"
-  max_size_gb  = 2
   sku_name     = "Basic"
 
   tags = {
@@ -115,8 +110,8 @@ resource "azurerm_kubernetes_cluster" "main_kubernetes_cluster" {
     name                = "default"
     vm_size             = "Standard_D2_v2"
     enable_auto_scaling = true
-    max_count           = 5
-    min_count           = 2
+    max_count           = 10
+    min_count           = 5
   }
 
   service_principal {

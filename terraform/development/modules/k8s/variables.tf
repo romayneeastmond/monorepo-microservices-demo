@@ -26,11 +26,6 @@ variable "mssql_server_password" {
   type = string
 }
 
-variable "prefix" {
-  type    = string
-  default = "dev"
-}
-
 variable "rabbitmq_password" {
   type = string
 }

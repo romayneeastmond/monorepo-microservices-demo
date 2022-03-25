@@ -14,6 +14,13 @@ require('dotenv').config();
 
 (async () => {
     const app = express();
+    const router = express.Router();
+
+    router.get('/', function (req, res) {
+        res.redirect('/graphql');
+    });
+
+    app.use('/', router);
 
     app.set('port', process.env.PORT || 4000);
 
