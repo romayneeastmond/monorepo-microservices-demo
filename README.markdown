@@ -1,4 +1,4 @@
-[![Build Microservices and Catalogue](https://github.com/romayneeastmond/monorepo-microservices-demo/actions/workflows/monorepo-microservices-build.yml/badge.svg?branch=main)](https://github.com/romayneeastmond/monorepo-microservices-demo/actions/workflows/monorepo-microservices-build.yml)
+[![Build Microservices and Catalogue](https://github.com/romayneeastmond/monorepo-microservices-demo/actions/workflows/monorepo-microservices-build.yml/badge.svg?branch=main)](https://github.com/romayneeastmond/monorepo-microservices-demo/actions/workflows/monorepo-microservices-build.yml) [![Azure Push Images to Registry](https://github.com/romayneeastmond/monorepo-microservices-demo/actions/workflows/monorepo-microservices-registry.yml/badge.svg)](https://github.com/romayneeastmond/monorepo-microservices-demo/actions/workflows/monorepo-microservices-registry.yml) [![Azure Deploy to Kubernetes from Registry](https://github.com/romayneeastmond/monorepo-microservices-demo/actions/workflows/monorepo-microservices-deploy.yml/badge.svg)](https://github.com/romayneeastmond/monorepo-microservices-demo/actions/workflows/monorepo-microservices-deploy.yml)
 
 # Monorepo for Company Microservices
 
@@ -22,7 +22,6 @@ A sandbox environment for experimenting with CI/CD inside a monorepo. Each proje
 - [x] Optionally deploy containers to Azure Kubernetes Services (AKS) with AzureDevOps
 - [x] Optionally deploy containers to Azure Kubernetes Services (AKS)
 - [x] Create Apollo GraphQL with Swagger Apis as REST data sources
-- [ ] Develop Unit Testing strategies
 
 #
 
