@@ -371,83 +371,12 @@ resource "kubernetes_config_map" "main_config_map_02" {
   }
 
   data = {
-    company_course                 = "http://${kubernetes_service.main_loadbalancer_company_course.status.0.load_balancer.0.ingress.0.ip}/"
-    company_department             = "http://${kubernetes_service.main_loadbalancer_company_department.status.0.load_balancer.0.ingress.0.ip}/"
-    company_employee               = "http://${kubernetes_service.main_loadbalancer_company_employee.status.0.load_balancer.0.ingress.0.ip}/"
-    company_notification           = "http://${kubernetes_service.main_loadbalancer_company_notification.status.0.load_balancer.0.ingress.0.ip}/"
-    react_app_company_course       = "http://${kubernetes_service.main_loadbalancer_company_course.status.0.load_balancer.0.ingress.0.ip}/swagger/index.html"
-    react_app_company_department   = "http://${kubernetes_service.main_loadbalancer_company_department.status.0.load_balancer.0.ingress.0.ip}/swagger/index.html"
-    react_app_company_employee     = "http://${kubernetes_service.main_loadbalancer_company_employee.status.0.load_balancer.0.ingress.0.ip}/swagger/index.html"
-    react_app_company_notification = "http://${kubernetes_service.main_loadbalancer_company_notification.status.0.load_balancer.0.ingress.0.ip}/swagger/index.html"
-    react_app_rabbitmq             = "http://${kubernetes_service.main_loadbalancer_rabbitmq_02.status.0.load_balancer.0.ingress.0.ip}"
+    company_course       = "http://${kubernetes_service.main_loadbalancer_company_course.status.0.load_balancer.0.ingress.0.ip}/"
+    company_department   = "http://${kubernetes_service.main_loadbalancer_company_department.status.0.load_balancer.0.ingress.0.ip}/"
+    company_employee     = "http://${kubernetes_service.main_loadbalancer_company_employee.status.0.load_balancer.0.ingress.0.ip}/"
+    company_notification = "http://${kubernetes_service.main_loadbalancer_company_notification.status.0.load_balancer.0.ingress.0.ip}/"
   }
 }
-
-resource "kubernetes_pod" "main_pod_microservices_catalogue" {
-  metadata {
-    name = "microservices-catalogue"
-    labels = {
-      app = "main_pod_microservices_catalogue"
-    }
-  }
-
-  spec {
-    container {
-      image = "devcontainerregistryre02.azurecr.io/microservices-catalogue:ci-1.0.1"
-      name  = "microservices-catalogue"
-
-      port {
-        container_port = 3000
-      }
-
-      env {
-        name  = "REACT_APP_COMPANY_COURSE"
-        value = kubernetes_config_map.main_config_map_02.data.react_app_company_course
-      }
-
-      env {
-        name  = "REACT_APP_COMPANY_DEPARTMENT"
-        value = kubernetes_config_map.main_config_map_02.data.react_app_company_department
-      }
-
-      env {
-        name  = "REACT_APP_COMPANY_EMPLOYEE"
-        value = kubernetes_config_map.main_config_map_02.data.react_app_company_employee
-      }
-
-      env {
-        name  = "REACT_APP_COMPANY_NOTIFICATION"
-        value = kubernetes_config_map.main_config_map_02.data.react_app_company_notification
-      }
-
-      env {
-        name  = "REACT_APP_RABBITMQ"
-        value = kubernetes_config_map.main_config_map_02.data.react_app_rabbitmq
-      }
-    }
-  }
-}
-
-resource "kubernetes_service" "main_loadbalancer_microservices_catalogue" {
-  metadata {
-    name = "microservices-catalogue-load-balancer"
-  }
-
-  spec {
-    selector = {
-      app = kubernetes_pod.main_pod_microservices_catalogue.metadata.0.labels.app
-    }
-
-    port {
-      port        = 80
-      target_port = 3000
-      node_port   = 31005
-    }
-
-    type = "LoadBalancer"
-  }
-}
-
 
 resource "kubernetes_pod" "main_pod_microservices_graphql" {
   metadata {
@@ -507,7 +436,92 @@ resource "kubernetes_service" "main_loadbalancer_microservices_graphql" {
     port {
       port        = 80
       target_port = 4000
-      node_port   = 31006
+      node_port   = 31008
+    }
+
+    type = "LoadBalancer"
+  }
+}
+
+resource "kubernetes_config_map" "main_config_map_03" {
+  metadata {
+    name = "main-config-map-03"
+  }
+
+  data = {
+    react_app_company_course       = "http://${kubernetes_service.main_loadbalancer_company_course.status.0.load_balancer.0.ingress.0.ip}/swagger/index.html"
+    react_app_company_department   = "http://${kubernetes_service.main_loadbalancer_company_department.status.0.load_balancer.0.ingress.0.ip}/swagger/index.html"
+    react_app_company_employee     = "http://${kubernetes_service.main_loadbalancer_company_employee.status.0.load_balancer.0.ingress.0.ip}/swagger/index.html"
+    react_app_company_notification = "http://${kubernetes_service.main_loadbalancer_company_notification.status.0.load_balancer.0.ingress.0.ip}/swagger/index.html"
+    react_app_rabbitmq             = "http://${kubernetes_service.main_loadbalancer_rabbitmq_02.status.0.load_balancer.0.ingress.0.ip}"
+    react_app_graphql              = "http://${kubernetes_service.main_loadbalancer_microservices_graphql.status.0.load_balancer.0.ingress.0.ip}/graphql"
+  }
+}
+
+resource "kubernetes_pod" "main_pod_microservices_catalogue" {
+  metadata {
+    name = "microservices-catalogue"
+    labels = {
+      app = "main_pod_microservices_catalogue"
+    }
+  }
+
+  spec {
+    container {
+      image = "devcontainerregistryre02.azurecr.io/microservices-catalogue:ci-1.0.1"
+      name  = "microservices-catalogue"
+
+      port {
+        container_port = 3000
+      }
+
+      env {
+        name  = "REACT_APP_COMPANY_COURSE"
+        value = kubernetes_config_map.main_config_map_03.data.react_app_company_course
+      }
+
+      env {
+        name  = "REACT_APP_COMPANY_DEPARTMENT"
+        value = kubernetes_config_map.main_config_map_03.data.react_app_company_department
+      }
+
+      env {
+        name  = "REACT_APP_COMPANY_EMPLOYEE"
+        value = kubernetes_config_map.main_config_map_03.data.react_app_company_employee
+      }
+
+      env {
+        name  = "REACT_APP_COMPANY_NOTIFICATION"
+        value = kubernetes_config_map.main_config_map_03.data.react_app_company_notification
+      }
+
+      env {
+        name  = "REACT_APP_RABBITMQ"
+        value = kubernetes_config_map.main_config_map_03.data.react_app_rabbitmq
+      }
+
+      env {
+        name  = "REACT_APP_GRAPHQL"
+        value = kubernetes_config_map.main_config_map_03.data.react_app_graphql
+      }
+    }
+  }
+}
+
+resource "kubernetes_service" "main_loadbalancer_microservices_catalogue" {
+  metadata {
+    name = "microservices-catalogue-load-balancer"
+  }
+
+  spec {
+    selector = {
+      app = kubernetes_pod.main_pod_microservices_catalogue.metadata.0.labels.app
+    }
+
+    port {
+      port        = 80
+      target_port = 3000
+      node_port   = 31005
     }
 
     type = "LoadBalancer"
