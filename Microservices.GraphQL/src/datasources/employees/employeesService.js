@@ -86,6 +86,48 @@ class EmployeesService extends RESTDataSource {
         return employees;
     };
 
+    getEmployeesByDepartment = async (departmentId) => {
+        const data = await this.get(`employees/get/department/${encodeURIComponent(departmentId)}`)
+            .then((result) => {
+                return result;
+            }).catch((error) => {
+                console.log(error);
+            });
+
+        if (data == null) {
+            return null;
+        }
+
+        let employees = [];
+
+        data.forEach((employee) => {
+            employees.push(this.getData(employee))
+        });
+
+        return employees;
+    };
+
+    getEmployeesByStatus = async (status) => {
+        const data = await this.get(`employees/get/status/${encodeURIComponent(status)}`)
+            .then((result) => {
+                return result;
+            }).catch((error) => {
+                console.log(error);
+            });
+
+        if (data == null) {
+            return null;
+        }
+
+        let employees = [];
+
+        data.forEach((employee) => {
+            employees.push(this.getData(employee))
+        });
+
+        return employees;
+    };
+
     updateEmployee = async (id, employee) => {
         const data = await this.put(`employees/update?id=${encodeURIComponent(id)}`, employee)
             .then((result) => {

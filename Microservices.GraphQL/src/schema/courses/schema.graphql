@@ -1,5 +1,5 @@
 type Query {
-  getCourse(id: String!): Course
+  getCourse(id: ID!): Course
   getCourses: [Course]
 }
 

@@ -1,5 +1,5 @@
 type Query {
-  getDepartment(id: String!): Department
+  getDepartment(id: ID!): Department
   getDepartments: [Department]
 }
 
