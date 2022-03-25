@@ -5,7 +5,7 @@ public static class Courses
 {
     public static void AddApiRoutes(this WebApplication app)
     {
-        app.MapGet("/", Hello);
+        app.MapGet("/", GetSwaggerJson);
 
         app.MapGet("/courses", Get);
 
@@ -17,9 +17,19 @@ public static class Courses
 
         app.MapDelete("/courses/delete", Delete);
 
-        static Task<IResult> Hello()
+        static async Task<string> GetSwaggerJson()
         {
-            return Task.FromResult(Results.Ok("Hello World from Company.Course Api Microservice!"));
+            if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME")))
+            {
+                var client = new HttpClient();
+
+                var response = await client.GetAsync($"https://{Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME")}/swagger/v1/swagger.json");
+                var responseBody = await response.Content.ReadAsStringAsync();
+
+                return responseBody;
+            }
+
+            return "Hello World from Company.Course Api Microservice!";
         };
 
         static async Task<IResult> Get(ICourseService courseService)

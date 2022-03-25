@@ -5,15 +5,25 @@ public static class Notification
 {
     public static void AddApiRoutes(this WebApplication app)
     {
-        app.MapGet("/", Hello);
+        app.MapGet("/", GetSwaggerJson);
 
         app.MapGet("/notification/log/{id}", GetLogById);
 
         app.MapPost("/notification/log/insert", InsertLog);
 
-        static Task<IResult> Hello()
+        static async Task<string> GetSwaggerJson()
         {
-            return Task.FromResult(Results.Ok("Hello World from Company.Notification Api Microservice!"));
+            if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME")))
+            {
+                var client = new HttpClient();
+
+                var response = await client.GetAsync($"https://{Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME")}/swagger/v1/swagger.json");
+                var responseBody = await response.Content.ReadAsStringAsync();
+
+                return responseBody;
+            }
+
+            return "Hello World from Company.Notification Api Microservice!";
         };
 
         static async Task<IResult> GetLogById(INotificationService notificationService, Guid id)
