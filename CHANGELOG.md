@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### 1.0.1 (2022-03-25)
 
+### 1.0.1 (2022-03-25)
+
 ### 1.0.1 (2022-03-24)
 
 ### 1.0.1 (2022-03-24)
