@@ -13,6 +13,10 @@ public static class Employees
 
         app.MapGet("/employee/get/emailAddress/{emailAddress}", GetByEmailAddress);
 
+        app.MapGet("/employees/get/department/{departmentId}", GetByDepartment);
+
+        app.MapGet("/employees/get/status/{isActive}", GetByStatus);
+
         app.MapPost("/employees/insert", Insert);
 
         app.MapPut("/employees/update", Update);
@@ -44,9 +48,19 @@ public static class Employees
             return await employeeService.Get(id) is Employee employee ? Results.Ok(employee) : Results.NotFound();
         };
 
+        static async Task<IResult> GetByDepartment(IEmployeeService employeeService, Guid departmentId)
+        {
+            return await employeeService.GetByDepartment(departmentId) is List<Employee> employees ? Results.Ok(employees) : Results.Ok(new List<Employee>());
+        };
+
         static async Task<IResult> GetByEmailAddress(IEmployeeService employeeService, string emailAddress)
         {
             return await employeeService.GetByEmailAddress(emailAddress) is Employee employee ? Results.Ok(employee) : Results.NotFound();
+        };
+
+        static async Task<IResult> GetByStatus(IEmployeeService employeeService, bool isActive)
+        {
+            return await employeeService.GetByStatus(isActive) is List<Employee> employees ? Results.Ok(employees) : Results.Ok(new List<Employee>());
         };
 
         static async Task<IResult> Insert(IEmployeeService employeeService, Employee employee)

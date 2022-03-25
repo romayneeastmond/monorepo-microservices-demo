@@ -8,13 +8,22 @@ const Query = {
     },
     getEmployees: async (parent, args, { dataSources }, info) => {
         var employees = await dataSources.employeesService.getEmployees();
-        var departments = await dataSources.departmentsService.getDepartments();
 
-        employees.forEach((employee) => {
-            if (employee !== null && employee.departmentId !== null) {
-                employee.department = departments.find(x => x.id === employee.departmentId);
-            }
-        });
+        await EmployeeHelper.getDepartments(dataSources.departmentsService, employees);
+
+        return employees;
+    },
+    getEmployeesByDepartment: async (parent, { departmentId }, { dataSources }, info) => {
+        var employees = await dataSources.employeesService.getEmployeesByDepartment(departmentId);
+
+        await EmployeeHelper.getDepartments(dataSources.departmentsService, employees);
+
+        return employees;
+    },
+    getEmployeesByStatus: async (parent, { status }, { dataSources }, info) => {
+        var employees = await dataSources.employeesService.getEmployeesByStatus(status);
+
+        await EmployeeHelper.getDepartments(dataSources.departmentsService, employees);
 
         return employees;
     }
@@ -47,6 +56,15 @@ const EmployeeHelper = {
         }
 
         return null;
+    },
+    getDepartments: async (departmentsService, employees) => {
+        var departments = await departmentsService.getDepartments();
+
+        employees.forEach((employee) => {
+            if (employee !== null && employee.departmentId !== null) {
+                employee.department = departments.find(x => x.id === employee.departmentId);
+            }
+        });
     }
 }
 

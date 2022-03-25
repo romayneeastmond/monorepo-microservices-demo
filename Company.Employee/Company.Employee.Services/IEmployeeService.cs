@@ -6,7 +6,11 @@
 
         Task<Models.Employee> Get(Guid id);
 
+        Task<List<Models.Employee>> GetByDepartment(Guid departmentId);
+
         Task<Models.Employee> GetByEmailAddress(string emailAddress);
+
+        Task<List<Models.Employee>> GetByStatus(bool isActive);
 
         Task<Models.Employee> Insert(Models.Employee employee);
 

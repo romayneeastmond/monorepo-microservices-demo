@@ -43,6 +43,11 @@ namespace Company.Employee.Services
             return employee;
         }
 
+        public async Task<List<Models.Employee>> GetByDepartment(Guid departmentId)
+        {
+            return await _db.Employees.Where(x => x.DepartmentId == departmentId).ToListAsync();
+        }
+
         public async Task<Models.Employee> GetByEmailAddress(string emailAddress)
         {
             var employee = await _db.Employees.FirstOrDefaultAsync(x => x.EmailAddress.Trim().ToLower() == emailAddress.Trim().ToLower());
@@ -53,6 +58,11 @@ namespace Company.Employee.Services
             }
 
             return employee;
+        }
+
+        public async Task<List<Models.Employee>> GetByStatus(bool isActive)
+        {
+            return await _db.Employees.Where(x => x.IsActive == isActive).ToListAsync();
         }
 
         public async Task<Models.Employee> Insert(Models.Employee employee)

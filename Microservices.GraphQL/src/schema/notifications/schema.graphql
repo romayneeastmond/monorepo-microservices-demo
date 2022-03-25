@@ -1,5 +1,5 @@
 type Query {
-  getNotificationLog(id: String!): NotificationLog
+  getNotificationLog(id: ID!): NotificationLog
 }
 
 type Mutation {
