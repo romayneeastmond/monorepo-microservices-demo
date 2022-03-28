@@ -40,6 +40,12 @@ To [re]build all images to running containers within a docker compose configurat
 docker-compose up --build
 ```
 
+To force all images to be recreated, use
+
+```
+docker-compose up --force-recreate
+```
+
 To run containers in detached mode, use
 
 ```
