@@ -114,16 +114,16 @@ stages:
                 $(tag)
 
       - job: build_microservices_graphql
-        displayName: Build Microservices.Graphql
+        displayName: Build Microservices.GraphQL
         pool:
           vmImage: $(vmImageName)
         steps:
           - task: Docker@2
-            displayName: Build and Push Microservices.Graphql to Registry
+            displayName: Build and Push Microservices.GraphQL to Registry
             inputs:
               command: buildAndPush
               repository: "microservices-graphql"
-              dockerfile: "**/Microservices.Graphql/Dockerfile"
+              dockerfile: "**/Microservices.GraphQL/Dockerfile"
               buildContext: .
               containerRegistry: $(dockerRegistryServiceConnection)
               tags: |
